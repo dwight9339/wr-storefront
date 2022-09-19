@@ -1,16 +1,8 @@
 import Image from "next/image";
-import styled from "@emotion/styled";
-
-const SidebarContainer = styled.div`
-  background-color: ${({ theme }) => theme.colors.tan[3]};
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-`;
-
-const CollectionButton = styled.a`
-  color: ${({ theme }) => theme.colors.gray[3]}
-`;
+import {
+  sidebarContainer,
+  collectionLinkContainer
+} from "../styles/Sidebar.module.scss";
 
 interface Collection {
   title: string;
@@ -23,24 +15,23 @@ type SidebarProps = {
 
 const Sidebar = ({ collections }: SidebarProps) => {
   return (
-      <SidebarContainer>
+      <div className={sidebarContainer}>
         <Image
           src="/images/wr_logo_v1.svg"
           width={100}
           height={100}
         />
-        <div
-          
-        >
+        <div className={collectionLinkContainer}>
           {collections.map((collection, i) => 
-          <CollectionButton 
-            key={i}
-            href={`/collection/${collection.id}`}  
-          >
-            {collection.title}
-          </CollectionButton>)}
+            <a 
+              key={i}
+              href={`/collection/${collection.id}`}  
+            >
+              {collection.title}
+            </a>
+          )}
         </div>
-      </SidebarContainer>
+      </div>
   )
 }
 

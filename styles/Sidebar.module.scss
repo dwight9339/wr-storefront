@@ -1,0 +1,17 @@
+@use "theme";
+
+.sidebarContainer {
+  background-color: theme.$tannish;
+  display: flex;
+  flex-direction: column;
+  padding-top: 15px;
+}
+
+.collectionLinkContainer {
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  color: theme.$blue-gray;
+}
