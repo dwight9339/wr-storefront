@@ -8,7 +8,20 @@ const SidebarContainer = styled.div`
   padding: 10px;
 `;
 
-const Sidebar = () => {
+const CollectionButton = styled.a`
+  color: ${({ theme }) => theme.colors.gray[3]}
+`;
+
+interface Collection {
+  title: string;
+  id: string;
+}
+
+type SidebarProps = {
+  collections: Collection[];
+}
+
+const Sidebar = ({ collections }: SidebarProps) => {
   return (
       <SidebarContainer>
         <Image
@@ -16,6 +29,17 @@ const Sidebar = () => {
           width={100}
           height={100}
         />
+        <div
+          
+        >
+          {collections.map((collection, i) => 
+          <CollectionButton 
+            key={i}
+            href={`/collection/${collection.id}`}  
+          >
+            {collection.title}
+          </CollectionButton>)}
+        </div>
       </SidebarContainer>
   )
 }
