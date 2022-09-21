@@ -1,3 +1,4 @@
+import styles from "../styles/Gallery.module.scss";
 
 type GalleryProps = {
 
@@ -5,7 +6,7 @@ type GalleryProps = {
 
 const Gallery = ({}: GalleryProps) => {
   return (
-    <div>
+    <div className={styles.container}>
       
     </div>
   )
