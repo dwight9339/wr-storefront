@@ -1,4 +1,5 @@
 @use "theme";
+@use "breakpoints";
 
 .sidebarContainer {
   background-color: theme.$tannish;
@@ -14,4 +15,45 @@
   gap: 5px;
   align-items: center;
   color: theme.$blue-gray;
+}
+
+.sidebarMain {
+  display: block;
+}
+
+.cartContainer {
+  display: none;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hamburgerContainer {
+  display: none;
+}
+
+.disappearLinks {
+  display: none;
+}
+
+@media screen and (max-width: breakpoints.$mobile) {
+  .sidebarMain {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .cartContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hamburgerContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
