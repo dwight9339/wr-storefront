@@ -16,6 +16,10 @@
   color: theme.$blue-gray;
 }
 
+.disappearLinks {
+  @extend .collectionLinkContainer;
+}
+
 .sidebarMain {
   display: block;
 }
@@ -34,11 +38,6 @@
   display: none;
 }
 
-.disappearLinks {
-  display: none;
-  height: none;
-}
-
 @media screen and (max-width: breakpoints.$mobile) {
   .sidebarMain {
     display: grid;
@@ -55,5 +54,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .disappearLinks {
+    display: none;
+    height: none;
   }
 }
