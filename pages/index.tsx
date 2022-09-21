@@ -1,51 +1,28 @@
 import type { NextPage } from 'next';
-import Head from 'next/head';
-import styles from '../styles/Home.module.scss';
 import { useQuery } from "react-query";
-import { useMemo } from 'react';
+import axios from "axios";
 
-import Sidebar from "../components/Sidebar";
-import Gallery from '../components/Gallery';
-import axios from 'axios';
+import Catalog from '../components/Catalog';
 
 const Home: NextPage = () => {
-  const { data: collections, isLoading, isError, isSuccess } = useQuery(
+  const { data: collections } = useQuery(
     ["getCollections"],
     async () => {
       const res = await axios.get("http://localhost:9000/store/collections");
       return res.data.collections;
     }
-  )
-
-  const content = useMemo(() => {
-    if (isLoading) {
-      return <h1>Loading...</h1>;
+  );
+  const { data: products } = useQuery(
+    ["getProducts"],
+    async () => {
+      const res = await axios.get("http://localhost:9000/store/products");
+      return res.data.products;
     }
+  );
 
-    if (isError) {
-      return <h1>Can't load data</h1>;
-    }
-
-    if (isSuccess) {
-      return (
-        <main className={styles.main}>
-          <Sidebar collections={collections} />
-          <Gallery />
-        </main>
-      );
-    }
-  }, [isLoading, isError, isSuccess, collections]);
-
-  return (
-    <div>
-      <Head>
-        <title>Winter Riddle Store</title>
-        <meta name="description" content="Official online store of Winter Riddle" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      {content}
-    </div>
-  )
+  if (!collections || !products) return <div></div>;
+  
+  return <Catalog collections={collections} products={products}/>
 }
 
-export default Home
+export default Home;

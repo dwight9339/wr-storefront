@@ -1,11 +1,7 @@
 import Image from "next/image";
 import styles from "../styles/Sidebar.module.scss";
 import { useState, useEffect } from "react";
-
-interface Collection {
-  title: string;
-  id: string;
-}
+import { Collection } from "./types";
 
 type SidebarProps = {
   collections: Collection[];
