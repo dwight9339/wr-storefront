@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '../styles/Home.module.scss';
 import { useQuery } from "react-query";
-import { useMemo, useEffect } from 'react';
+import { useMemo } from 'react';
 
 import Sidebar from "../components/Sidebar";
 import Gallery from '../components/Gallery';
@@ -16,12 +16,6 @@ const Home: NextPage = () => {
       return res.data.collections;
     }
   )
-
-  useEffect(() => {
-    if (isSuccess) {
-      console.log(JSON.stringify(collections));
-    }
-  }, [isSuccess, collections]);
 
   const content = useMemo(() => {
     if (isLoading) {
