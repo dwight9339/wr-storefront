@@ -9,7 +9,6 @@
 }
 
 .collectionLinkContainer {
-  padding-top: 10px;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -37,6 +36,7 @@
 
 .disappearLinks {
   display: none;
+  height: none;
 }
 
 @media screen and (max-width: breakpoints.$mobile) {
