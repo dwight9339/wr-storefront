@@ -8,14 +8,14 @@ const Home: NextPage = () => {
   const { data: collections } = useQuery(
     ["getCollections"],
     async () => {
-      const res = await axios.get("http://localhost:9000/store/collections");
+      const res = await axios.get(`http://localhost:9000/store/collections`);
       return res.data.collections;
     }
   );
   const { data: products } = useQuery(
     ["getProducts"],
     async () => {
-      const res = await axios.get("http://localhost:9000/store/products");
+      const res = await axios.get(`http://localhost:9000/store/products`);
       return res.data.products;
     }
   );
