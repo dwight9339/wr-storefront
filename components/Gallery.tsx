@@ -1,6 +1,7 @@
 import styles from "../styles/Gallery.module.scss";
 import { Product } from "./types";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 type GalleryProps = {
   products: Product[];
@@ -11,8 +12,13 @@ type GalleryItemProps = {
 }
 
 const GalleryItem = ({ product }: GalleryItemProps) => {
+  const router = useRouter();
+
   return (
-    <div className={styles.galleryItemContainer}>
+    <div 
+      className={styles.galleryItemContainer}
+      onClick={() => router.push(`/product/${product.id}`)}  
+    >
       <div className={styles.thumbnailContainer}>
         <Image
           src={product.thumbnail}
