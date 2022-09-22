@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: [process.env.IMAGE_DOMAIN]
+    domains: process.env.IMAGE_DOMAIN ? [process.env.IMAGE_DOMAIN] : null
   }
 }
 
