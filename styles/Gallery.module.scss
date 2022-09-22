@@ -9,17 +9,31 @@
 }
 
 .galleryItemContainer {
- border: 1px black solid;
-}
-
-.itemInfo {
-  display: none;
-}
-
-.thumbnailContainer {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.itemInfo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0);
+  color: rgba(0, 0, 0, 0);
+}
+
+.itemInfo:hover {
+  background-color: transparentize(theme.$blue-gray, 0.3);
+  color: theme.$cream;
+}
+
+.thumbnailContainer {
 }
 
 @media screen and (max-width: breakpoints.$mobile) {

@@ -13,15 +13,15 @@ type GalleryItemProps = {
 const GalleryItem = ({ product }: GalleryItemProps) => {
   return (
     <div className={styles.galleryItemContainer}>
-      <div className={styles.itemInfo}>
-        <h1>{product.title}</h1>
-      </div>
       <div className={styles.thumbnailContainer}>
         <Image
           src={product.thumbnail}
-          width={300}
-          height={300}
+          width={500}
+          height={500}
         />
+      </div>
+      <div className={styles.itemInfo}>
+        <h1>{product.title}</h1>
       </div>
     </div>
   )
