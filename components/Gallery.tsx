@@ -34,7 +34,7 @@ const GalleryItem = ({ product }: GalleryItemProps) => {
       </div>
       <div className={styles.itemInfo}>
         <h1>{product.title}</h1>
-        <h1>Starting at ${formattedPrice}</h1>
+        <h2>Starting at ${formattedPrice}</h2>
       </div>
     </div>
   )
