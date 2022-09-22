@@ -13,6 +13,12 @@ type GalleryItemProps = {
 
 const GalleryItem = ({ product }: GalleryItemProps) => {
   const router = useRouter();
+  const prices = product.variants.map(({ prices }) => prices[0]);
+  const startingPrice = Math.floor(Math.min(...prices.map(({ amount }) => amount)) / 100);
+  const formattedPrice = startingPrice.toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
 
   return (
     <div 
@@ -28,6 +34,7 @@ const GalleryItem = ({ product }: GalleryItemProps) => {
       </div>
       <div className={styles.itemInfo}>
         <h1>{product.title}</h1>
+        <h1>Starting at ${formattedPrice}</h1>
       </div>
     </div>
   )

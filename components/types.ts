@@ -15,7 +15,7 @@ export interface Variant {
   id: string;
   title: string;
   product_id: string;
-  prices: Price;
+  prices: Price[];
 }
 
 export interface Product {
