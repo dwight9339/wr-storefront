@@ -1,0 +1,14 @@
+@use "theme";
+
+.button {
+  width: fit-content;
+  background-color: theme.$tannish;
+  color: theme.$blue-gray;
+  font-weight: 600;
+  font-size: 1.4em;
+  padding: 15px 25px;
+}
+
+.button:hover {
+  background-color: scale-color(theme.$tannish, $lightness: -10%);
+}

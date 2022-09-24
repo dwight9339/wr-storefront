@@ -4,6 +4,7 @@
 .pickerContainer {
   display: flex;
   gap: 0.5em;
+  padding-bottom: 20px;
 }
 
 .itemContainer {
@@ -14,6 +15,8 @@
   h3 {
     margin: 0px;
     padding: 0px;
+    font-weight: 600;
+    font-size: 1.2em;
   }
 }
 

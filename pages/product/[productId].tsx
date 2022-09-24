@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import { useRouter } from "next/router";
 import styles from "../../styles/ProductPage.module.scss";
+import commonStyles from "../../styles/common.module.scss";
 import Image from "next/image";
 import { useState, useEffect, useMemo } from "react";
 import { Variant } from "../../components/types";
@@ -85,6 +86,9 @@ const ProductPage: NextPage = () => {
                 : ""
             }
           />
+          <div className={commonStyles.button}>
+            Add to cart
+          </div>
         </div>
         <div className={styles.photoContainer}>
           <Image
