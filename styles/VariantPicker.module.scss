@@ -1,0 +1,23 @@
+@use "theme";
+@use "breakpoints";
+
+.pickerContainer {
+  display: flex;
+  gap: 0.5em;
+}
+
+.itemContainer {
+  padding: 5px 10px;
+  border: 0.15em theme.$cream solid;
+  cursor: pointer;
+
+  h3 {
+    margin: 0px;
+    padding: 0px;
+  }
+}
+
+.itemContainer:hover, .selected {
+  background-color: theme.$cream;
+  color: theme.$blue-gray;
+}
