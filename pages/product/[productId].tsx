@@ -4,7 +4,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import styles from "../../styles/ProductPage.module.scss";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Variant } from "../../components/types";
 
 import VariantPicker from "../../components/VariantPicker";
@@ -25,6 +25,16 @@ const ProductPage: NextPage = () => {
       }
     }
   )
+  const currentPrice = useMemo(() => {
+    const amt = selectedVariant
+      ?.prices.find((price) => price.currency_code === "usd")
+      ?.amount || 0;
+
+    return (amt / 100).toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  }, [selectedVariant])
 
   useEffect(() => {
     if (product) {
@@ -34,7 +44,6 @@ const ProductPage: NextPage = () => {
 
   const updateVariant = (variant: Variant) => {
     setSelectedVariant(() => variant);
-    // console.log(`Selected variant: ${JSON.stringify(selectedVariant)}`);
   }
 
   if (!product) return <div></div>;
@@ -66,6 +75,7 @@ const ProductPage: NextPage = () => {
         <div className={styles.infoContainer}>
           <h1>{product.title}</h1>
           <p>{product.description}</p>
+          <h3>${currentPrice}</h3>
           <VariantPicker 
             variants={product.variants}
             updateSelected={updateVariant}
