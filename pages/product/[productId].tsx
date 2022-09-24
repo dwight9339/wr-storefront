@@ -26,6 +26,39 @@ const ProductPage: NextPage = () => {
       }
     }
   )
+
+  const addToCart = async () => {
+    const cartId = document.cookie
+      .split("; ")
+      .find((entry) => entry.startsWith("cartId="))
+      ?.split("=")[1];
+    const itemsList = selectedVariant && [
+      {
+        variant_id: selectedVariant.id,
+        quantity: 1
+      }
+    ];
+
+    try {
+      if (!cartId) {
+        const { data: { cart }} = await axios.post("http://localhost:9000/store/carts", {
+          items: itemsList,
+          country_code: "US"
+        });
+
+        document.cookie = `cartId=${cart.id}`
+      } else {
+        const { data: { cart }} = await axios.post(`http://localhost:9000/store/carts/${cartId}/line-items`, {
+          variant_id: selectedVariant?.id,
+          quantity: 1
+        });
+        console.log(`Line item successfully added`);
+      } 
+    } catch(err) {
+      console.error(err);
+    }
+  }
+
   const currentPrice = useMemo(() => {
     const amt = selectedVariant
       ?.prices.find((price) => price.currency_code === "usd")
@@ -86,7 +119,10 @@ const ProductPage: NextPage = () => {
                 : ""
             }
           />
-          <div className={commonStyles.button}>
+          <div 
+            className={commonStyles.button}
+            onClick={addToCart}
+          >
             Add to cart
           </div>
         </div>
