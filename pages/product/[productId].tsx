@@ -85,9 +85,17 @@ const ProductPage: NextPage = () => {
     <div className={styles.pageContainer}>
       <div className={styles.header}>
         <div className={styles.backToGalleryContainer}>
-          <button>
-            Return to gallery
-          </button>
+          <div 
+            className={commonStyles.returnButton}
+            onClick={() => router.push("/")}  
+          >
+            <Image
+              src="/images/icons/return_arrow.svg"
+              width={30}
+              height={30}
+            />
+            <p>Return to gallery</p>
+          </div>
         </div>
         <div className={styles.logoContainer}>
           <Image
@@ -119,7 +127,7 @@ const ProductPage: NextPage = () => {
             }
           />
           <div 
-            className={commonStyles.button}
+            className={commonStyles.actionButton}
             onClick={addToCart}
           >
             Add to cart

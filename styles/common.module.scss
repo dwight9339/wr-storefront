@@ -1,6 +1,6 @@
 @use "theme";
 
-.button {
+.actionButton {
   width: fit-content;
   background-color: theme.$tannish;
   color: theme.$blue-gray;
@@ -10,6 +10,20 @@
   cursor: pointer;
 }
 
-.button:hover {
+.actionButton:hover {
   background-color: scale-color(theme.$tannish, $lightness: -10%);
+}
+
+.returnButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+
+  p {
+    font-weight: 700;
+    font-size: 1.2em;
+    color: theme.$tannish;
+  }
 }
