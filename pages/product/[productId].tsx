@@ -6,8 +6,7 @@ import styles from "../../styles/ProductPage.module.scss";
 import commonStyles from "../../styles/common.module.scss";
 import Image from "next/image";
 import { useState, useEffect, useMemo } from "react";
-import { Variant } from "../../components/types";
-
+import { ProductVariant as Variant } from "@medusajs/medusa";
 import VariantPicker from "../../components/VariantPicker";
 
 const ProductPage: NextPage = () => {

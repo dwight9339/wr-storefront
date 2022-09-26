@@ -1,9 +1,11 @@
 import Sidebar from "../components/Sidebar";
 import Gallery from '../components/Gallery';
-import axios from 'axios';
 import Head from 'next/head';
 import styles from '../styles/Home.module.scss';
-import { Collection, Product } from "./types";
+import {
+  ProductCollection as Collection, 
+  Product
+} from "@medusajs/medusa";
 
 type CatalogProps = {
   collections: Collection[];

@@ -1,5 +1,5 @@
-import { Variant } from "./types";
 import styles from "../styles/VariantPicker.module.scss";
+import { ProductVariant as Variant } from "@medusajs/medusa";
 
 type VariantPickerItemProps = {
   variant: Variant;
