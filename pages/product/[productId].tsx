@@ -11,6 +11,7 @@ import VariantPicker from "../../components/VariantPicker";
 import ReturnButton from "../../components/ReturnButton";
 import CartContext from "../../contexts/CartContext";
 import Header from "../../components/Header";
+import ActionButton from "../../components/ActionButton";
 
 const ProductPage: NextPage = () => {
   const router = useRouter();
@@ -72,12 +73,10 @@ const ProductPage: NextPage = () => {
                 : ""
             }
           />
-          <div 
-            className={commonStyles.actionButton}
-            onClick={() => addItem(selectedVariant)}
-          >
-            Add to cart
-          </div>
+          <ActionButton 
+            text="Add to cart"
+            action={() => console.log("It works")}
+          />
         </div>
         <div className={styles.photoContainer}>
           <Image
