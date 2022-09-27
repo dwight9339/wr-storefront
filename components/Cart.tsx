@@ -1,5 +1,6 @@
 import CartContext from "../contexts/CartContext";
 import { useContext } from "react";
+import styles from "../styles/Cart.module.scss";
 
 const Cart = () => {
   const {
@@ -9,7 +10,12 @@ const Cart = () => {
   } = useContext(CartContext);
 
   return (
-    <div></div>
+    <div className={styles.container}>
+      { cart.length === 0 
+        ? <div className={styles.emptyCartMessage}>Cart is empty</div>
+        : <div></div>
+      }
+    </div>
   )
 }
 

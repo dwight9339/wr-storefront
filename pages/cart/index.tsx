@@ -9,15 +9,10 @@ const CartPage: NextPage = () => {
     <div className={styles.container}>
       <Header returnButtonText="Continue shopping" />
       <Cart />
-      <div>
-        <div className={styles.total}>
-          
-        </div>
-        <ActionButton 
-          text="Checkout"
-          action={() => console.log("Proceed to checkout")}
-        />
-      </div>
+      <ActionButton 
+        text="Checkout"
+        action={() => console.log("Proceed to checkout")}
+      />
     </div>
   )
 }

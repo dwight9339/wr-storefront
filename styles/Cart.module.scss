@@ -1,0 +1,19 @@
+@use "theme";
+@use "breakpoints";
+
+.container {
+  background-color: theme.$tannish;
+  color: theme.$blue-gray;
+  width: 90%;
+  max-width: 900px;
+  min-height: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.emptyCartMessage {
+  font-weight: 700;
+
+}
