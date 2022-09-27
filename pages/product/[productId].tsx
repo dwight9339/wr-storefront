@@ -99,8 +99,8 @@ const ProductPage: NextPage = () => {
         <div className={styles.photoContainer}>
           <Image
             src={product.thumbnail}
-            width={500}
-            height={500}
+            width={700}
+            height={700}
           />
         </div>
       </div>
