@@ -22,7 +22,7 @@
   align-items: center;
 }
 
-.backToGalleryContainer {
+.returnButtonContainer {
   @extend .headerItemContainer;
   justify-content: flex-start;
 }
@@ -47,4 +47,8 @@
 
 .infoContainer {
   padding: 15px 20px;
+}
+
+@media screen and (max-size: breakpoints.$mobile) {
+  
 }

@@ -57,7 +57,7 @@ const ProductPage: NextPage = () => {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.header}>
-        <div className={styles.backToGalleryContainer}>
+        <div className={styles.returnButtonContainer}>
           <ReturnButton text="Return to gallery" />
         </div>
         <div className={styles.logoContainer}>
