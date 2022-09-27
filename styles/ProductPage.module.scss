@@ -10,33 +10,6 @@
   align-items: center;
 }
 
-.header {
-  width: 100vw;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  padding: 0px 30px;
-}
-
-.headerItemContainer {
-  display: flex;
-  align-items: center;
-}
-
-.returnButtonContainer {
-  @extend .headerItemContainer;
-  justify-content: flex-start;
-}
-
-.logoContainer {
-  @extend .headerItemContainer;
-  justify-content: center;
-}
-
-.cartIconContainer {
-  @extend .headerItemContainer;
-  justify-content: flex-end;
-}
-
 .contentContainer {
   width: 90%;
   max-width: 1100px;

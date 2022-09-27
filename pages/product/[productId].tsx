@@ -10,6 +10,7 @@ import { ProductVariant as Variant } from "@medusajs/medusa";
 import VariantPicker from "../../components/VariantPicker";
 import ReturnButton from "../../components/ReturnButton";
 import CartContext from "../../contexts/CartContext";
+import Header from "../../components/Header";
 
 const ProductPage: NextPage = () => {
   const router = useRouter();
@@ -28,8 +29,6 @@ const ProductPage: NextPage = () => {
       }
     }
   );
-
-  console.log(cart);
 
   const currentPrice = useMemo(() => {
     const amt = selectedVariant
@@ -56,25 +55,9 @@ const ProductPage: NextPage = () => {
 
   return (
     <div className={styles.pageContainer}>
-      <div className={styles.header}>
-        <div className={styles.returnButtonContainer}>
-          <ReturnButton text="Return to gallery" />
-        </div>
-        <div className={styles.logoContainer}>
-          <Image
-            src="/images/wr_logo_v1_light.svg"
-            width={100}
-            height={100}
-          />
-        </div>
-        <div className={styles.cartIconContainer}>
-          <Image
-            src="/images/icons/cart_light.svg"
-            width={50}
-            height={50}
-          />
-        </div>
-      </div>
+      <Header 
+        returnButtonText="Back to gallery"
+      />
       <div className={styles.contentContainer}>
         <div className={styles.infoContainer}>
           <h1>{product.title}</h1>

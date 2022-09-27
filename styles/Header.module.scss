@@ -1,0 +1,16 @@
+.header {
+  width: 100vw;
+  height: 130px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 0px 30px;
+  
+  div {
+    display: flex;
+    align-items: center;
+  }
+
+  .logoDiv {
+    justify-content: center;
+  }
+}
