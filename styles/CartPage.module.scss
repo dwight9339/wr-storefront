@@ -1,0 +1,7 @@
+@use "theme";
+@use "breakpoints";
+
+.container {
+  height: 100vh;
+  background-color: theme.$blue-gray;
+}
