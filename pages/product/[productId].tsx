@@ -5,13 +5,15 @@ import { useRouter } from "next/router";
 import styles from "../../styles/ProductPage.module.scss";
 import commonStyles from "../../styles/common.module.scss";
 import Image from "next/image";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useContext } from "react";
 import { ProductVariant as Variant } from "@medusajs/medusa";
 import VariantPicker from "../../components/VariantPicker";
+import CartContext from "../../contexts/CartContext";
 
 const ProductPage: NextPage = () => {
   const router = useRouter();
   const { productId } = router.query;
+  const { cart, addItem } = useContext(CartContext);
   const [selectedVariant, setSelectedVariant] = useState<Variant>();
   const { data: product } = useQuery(
     ["getProduct", productId],
@@ -25,6 +27,8 @@ const ProductPage: NextPage = () => {
       }
     }
   );
+
+  console.log(cart);
 
   const currentPrice = useMemo(() => {
     const amt = selectedVariant
@@ -55,7 +59,7 @@ const ProductPage: NextPage = () => {
         <div className={styles.backToGalleryContainer}>
           <div 
             className={commonStyles.returnButton}
-            onClick={() => router.push("/")}  
+            onClick={router.back}  
           >
             <Image
               src="/images/icons/return_arrow.svg"
@@ -96,7 +100,7 @@ const ProductPage: NextPage = () => {
           />
           <div 
             className={commonStyles.actionButton}
-            // onClick={() => addItem(selectedVariant)}
+            onClick={() => addItem(selectedVariant)}
           >
             Add to cart
           </div>
