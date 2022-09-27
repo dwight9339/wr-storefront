@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useState, useEffect, useMemo, useContext } from "react";
 import { ProductVariant as Variant } from "@medusajs/medusa";
 import VariantPicker from "../../components/VariantPicker";
+import ReturnButton from "../../components/ReturnButton";
 import CartContext from "../../contexts/CartContext";
 
 const ProductPage: NextPage = () => {
@@ -57,17 +58,7 @@ const ProductPage: NextPage = () => {
     <div className={styles.pageContainer}>
       <div className={styles.header}>
         <div className={styles.backToGalleryContainer}>
-          <div 
-            className={commonStyles.returnButton}
-            onClick={router.back}  
-          >
-            <Image
-              src="/images/icons/return_arrow.svg"
-              width={30}
-              height={30}
-            />
-            <p>Return to gallery</p>
-          </div>
+          <ReturnButton text="Return to gallery" />
         </div>
         <div className={styles.logoContainer}>
           <Image
