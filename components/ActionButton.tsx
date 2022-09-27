@@ -3,17 +3,19 @@ import styles from "../styles/ActionButton.module.scss";
 type ActionButtonProps = {
   text: string;
   action: Function;
+  disabled: Boolean;
 }
 
 const ActionButton = ({
   text,
-  action
+  action,
+  disabled
 }: ActionButtonProps) => {
-  const doAction = () => action();
+  const doAction = () => !disabled && action();
 
   return (
     <div 
-      className={styles.button}
+      className={`${styles.button} ${disabled && styles.disabled}`}
       onClick={doAction}  
     >
       {text}

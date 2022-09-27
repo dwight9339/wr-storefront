@@ -13,3 +13,12 @@
     background-color: scale-color(theme.$tannish, $lightness: -10%);
   }
 }
+
+.disabled {
+  @extend .button;
+  background-color: scale-color(theme.$tannish, $lightness: -30%);
+
+  &:hover {
+    background-color: scale-color(theme.$tannish, $lightness: -30%);
+  }
+}
