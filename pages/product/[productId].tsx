@@ -3,20 +3,18 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import { useRouter } from "next/router";
 import styles from "../../styles/ProductPage.module.scss";
-import commonStyles from "../../styles/common.module.scss";
 import Image from "next/image";
-import { useState, useEffect, useMemo, useContext } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { ProductVariant as Variant } from "@medusajs/medusa";
 import VariantPicker from "../../components/VariantPicker";
-import ReturnButton from "../../components/ReturnButton";
-import CartContext from "../../contexts/CartContext";
 import Header from "../../components/Header";
 import ActionButton from "../../components/ActionButton";
+import useCart from "../../hooks/useCart";
 
 const ProductPage: NextPage = () => {
   const router = useRouter();
+  const { cart, addItem } = useCart();
   const { productId } = router.query;
-  const { cart, addItem } = useContext(CartContext);
   const [selectedVariant, setSelectedVariant] = useState<Variant>();
   const { data: product } = useQuery(
     ["getProduct", productId],
@@ -76,6 +74,7 @@ const ProductPage: NextPage = () => {
           <ActionButton 
             text="Add to cart"
             action={() => console.log("It works")}
+            disabled={false}
           />
         </div>
         <div className={styles.photoContainer}>
