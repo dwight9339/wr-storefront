@@ -1,0 +1,7 @@
+@use "theme";
+
+.container {
+  background-color: theme.$blue_gray;
+  border: 2em theme.$tannish solid;
+  
+}

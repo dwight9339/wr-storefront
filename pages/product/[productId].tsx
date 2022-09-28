@@ -9,6 +9,7 @@ import { ProductVariant as Variant } from "@medusajs/medusa";
 import VariantPicker from "../../components/VariantPicker";
 import Header from "../../components/Header";
 import ActionButton from "../../components/ActionButton";
+import QuantitySelector from "../../components/QuantitySelector";
 import useCart from "../../hooks/useCart";
 
 const ProductPage: NextPage = () => {
@@ -16,6 +17,7 @@ const ProductPage: NextPage = () => {
   const { cart, addItem } = useCart();
   const { productId } = router.query;
   const [selectedVariant, setSelectedVariant] = useState<Variant>();
+  const [quantity, setQuantity] = useState<number>(0);
   const { data: product } = useQuery(
     ["getProduct", productId],
     async () => {
@@ -70,6 +72,10 @@ const ProductPage: NextPage = () => {
                 ? selectedVariant.id
                 : ""
             }
+          />
+          <QuantitySelector
+            currentQuantity={quantity}
+            updateQuantity={setQuantity}
           />
           <ActionButton 
             text="Add to cart"
