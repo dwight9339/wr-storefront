@@ -11,7 +11,7 @@ import { useSessionCart, useProduct } from "medusa-react";
 
 const ProductPage: NextPage = () => {
   const router = useRouter();
-  const { addItem, items } = useSessionCart();
+  const { addItem } = useSessionCart();
   const { productId } = router.query;
   const [selectedVariant, setSelectedVariant] = useState<Variant>();
   const { product, isLoading } = useProduct(`${productId}`);
@@ -32,10 +32,6 @@ const ProductPage: NextPage = () => {
       setSelectedVariant(product.variants[0]);
     }
   }, [product]);
-
-  useEffect(() => {
-    console.log(`Cart: ${JSON.stringify(items)}`);
-  }, [items]);
 
   const updateVariant = (variant: Variant) => {
     setSelectedVariant(() => variant);
