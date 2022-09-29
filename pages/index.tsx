@@ -1,24 +1,11 @@
 import type { NextPage } from 'next';
-import { useQuery } from "react-query";
-import axios from "axios";
+import { useProducts, useCollections } from "medusa-react";
 
 import Catalog from '../components/Catalog';
 
 const Home: NextPage = () => {
-  const { data: collections } = useQuery(
-    ["getCollections"],
-    async () => {
-      const res = await axios.get(`http://localhost:9000/store/collections`);
-      return res.data.collections;
-    }
-  );
-  const { data: products } = useQuery(
-    ["getProducts"],
-    async () => {
-      const res = await axios.get(`http://localhost:9000/store/products`);
-      return res.data.products;
-    }
-  );
+  const { collections } = useCollections();
+  const { products } = useProducts();
 
   if (!collections || !products) return <div></div>;
   

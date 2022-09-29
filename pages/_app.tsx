@@ -1,22 +1,20 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from "react-query/devtools";
-import { useState, createContext } from "react";
-import { LineItem as Item } from '@medusajs/medusa';
-import CartContext from "../contexts/CartContext";
+import { QueryClient } from 'react-query';
+import { MedusaProvider } from 'medusa-react';
+
+const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [queryClient] = useState(() => new QueryClient());
-  const [cart, setCart] = useState<Item[]>([]);
-
   return (
-    <CartContext.Provider value={{cart, setCart}}>
-      <QueryClientProvider client={queryClient}>
-        <Component {...pageProps} />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </CartContext.Provider>
+    <MedusaProvider
+      queryClientProviderProps={{
+        client: queryClient
+      }}
+      baseUrl={process.env.NEXT_PUBLIC_BACKEND_HOST || "http://localhost:9000"}
+    >
+      <Component {...pageProps} />
+    </MedusaProvider>
   )
 }
 

@@ -1,6 +1,4 @@
 import type { NextPage } from "next";
-import { useQuery } from "react-query";
-import axios from "axios";
 import { useRouter } from "next/router";
 import styles from "../../styles/ProductPage.module.scss";
 import Image from "next/image";
@@ -10,26 +8,14 @@ import VariantPicker from "../../components/VariantPicker";
 import Header from "../../components/Header";
 import ActionButton from "../../components/ActionButton";
 import QuantitySelector from "../../components/QuantitySelector";
-import useCart from "../../hooks/useCart";
+import { useProduct } from "medusa-react";
 
 const ProductPage: NextPage = () => {
   const router = useRouter();
-  const { cart, addItem } = useCart();
   const { productId } = router.query;
   const [selectedVariant, setSelectedVariant] = useState<Variant>();
   const [quantity, setQuantity] = useState<number>(0);
-  const { data: product } = useQuery(
-    ["getProduct", productId],
-    async () => {
-      try {
-        const res = await axios.get(`http://localhost:9000/store/products/${productId}`);
-        return res.data.product;
-      } catch(err) {
-        console.error(err);
-        return null;
-      }
-    }
-  );
+  const { product, isLoading } = useProduct(`${productId}`);
 
   const currentPrice = useMemo(() => {
     const amt = selectedVariant
