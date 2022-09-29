@@ -1,7 +1,7 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { QueryClient } from 'react-query';
-import { MedusaProvider, CartProvider } from 'medusa-react';
+import { MedusaProvider, SessionCartProvider } from 'medusa-react';
 
 const queryClient = new QueryClient();
 
@@ -13,9 +13,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       }}
       baseUrl={process.env.NEXT_PUBLIC_BACKEND_HOST || "http://localhost:9000"}
     >
-      <CartProvider>
+      <SessionCartProvider>
         <Component {...pageProps} />
-      </CartProvider>
+      </SessionCartProvider>
     </MedusaProvider>
   )
 }

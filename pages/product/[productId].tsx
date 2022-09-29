@@ -7,14 +7,13 @@ import { ProductVariant as Variant } from "@medusajs/medusa";
 import VariantPicker from "../../components/VariantPicker";
 import Header from "../../components/Header";
 import ActionButton from "../../components/ActionButton";
-import QuantitySelector from "../../components/QuantitySelector";
-import { useProduct } from "medusa-react";
+import { useSessionCart, useProduct } from "medusa-react";
 
 const ProductPage: NextPage = () => {
   const router = useRouter();
+  const { addItem, items } = useSessionCart();
   const { productId } = router.query;
   const [selectedVariant, setSelectedVariant] = useState<Variant>();
-  const [quantity, setQuantity] = useState<number>(0);
   const { product, isLoading } = useProduct(`${productId}`);
 
   const currentPrice = useMemo(() => {
@@ -34,8 +33,19 @@ const ProductPage: NextPage = () => {
     }
   }, [product]);
 
+  useEffect(() => {
+    console.log(`Cart: ${JSON.stringify(items)}`);
+  }, [items]);
+
   const updateVariant = (variant: Variant) => {
     setSelectedVariant(() => variant);
+  }
+
+  const addToCart = () => {
+    selectedVariant && addItem({
+      variant: selectedVariant,
+      quantity: 1
+    });
   }
 
   if (!product) return <div></div>;
@@ -59,13 +69,9 @@ const ProductPage: NextPage = () => {
                 : ""
             }
           />
-          <QuantitySelector
-            currentQuantity={quantity}
-            updateQuantity={setQuantity}
-          />
           <ActionButton 
             text="Add to cart"
-            action={() => console.log("It works")}
+            action={addToCart}
             disabled={false}
           />
         </div>
