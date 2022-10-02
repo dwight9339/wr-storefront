@@ -9,7 +9,10 @@ const Home: NextPage = () => {
 
   if (!collections || !products) return <div></div>;
   
-  return <Catalog collections={collections} products={products}/>
+  return <Catalog
+    collections={collections}
+    products={products}
+  />
 }
 
 export default Home;

@@ -7,11 +7,10 @@ import { ProductVariant as Variant } from "@medusajs/medusa";
 import VariantPicker from "../../components/VariantPicker";
 import Header from "../../components/Header";
 import ActionButton from "../../components/ActionButton";
-import { useSessionCart, useProduct } from "medusa-react";
+import { useProduct } from "medusa-react";
 
 const ProductPage: NextPage = () => {
   const router = useRouter();
-  const { addItem } = useSessionCart();
   const { productId } = router.query;
   const [selectedVariant, setSelectedVariant] = useState<Variant>();
   const { product, isLoading } = useProduct(`${productId}`);
@@ -37,12 +36,7 @@ const ProductPage: NextPage = () => {
     setSelectedVariant(() => variant);
   }
 
-  const addToCart = () => {
-    selectedVariant && addItem({
-      variant: selectedVariant,
-      quantity: 1
-    });
-  }
+  const addToCart = () => {};
 
   if (!product) return <div></div>;
 
