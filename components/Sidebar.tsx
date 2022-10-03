@@ -2,13 +2,15 @@ import Image from "next/image";
 import styles from "../styles/Sidebar.module.scss";
 import { useState, useEffect } from "react";
 import type { ProductCollection as Collection } from "@medusajs/medusa"
+import { useCatalog } from "../providers/CatalogProvider";
 
 type SidebarProps = {
   collections: Collection[];
 }
 
-const Sidebar = ({ collections }: SidebarProps) => {
+const Sidebar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { collections, setSelectedCollection } = useCatalog();
 
   const toggleMenuOpen = () => setMenuOpen(!menuOpen);
 
@@ -43,13 +45,13 @@ const Sidebar = ({ collections }: SidebarProps) => {
           </div>
         </div>
         <div className={menuOpen ? styles.collectionLinkContainer : styles.disappearLinks}>
-          {collections.map((collection, i) => 
-            <a 
+          {collections && collections.map((collection, i) => 
+            <div
               key={i}
-              href={`/collection/${collection.id}`}  
+              onClick={() => setSelectedCollection(collection.id)}
             >
               {collection.title}
-            </a>
+            </div>
           )}
         </div>
       </div>

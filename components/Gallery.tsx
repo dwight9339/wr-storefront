@@ -1,17 +1,15 @@
 import styles from "../styles/Gallery.module.scss";
-import { Product } from "./types";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useCatalog } from "../providers/CatalogProvider";
+import type { Product } from "@medusajs/medusa";
 
-type GalleryProps = {
-  products: Product[];
-}
-
-type GalleryItemProps = {
+interface GalleryItemProps {
   product: Product;
 }
 
 const GalleryItem = ({ product }: GalleryItemProps) => {
+  const { products } = useCatalog();
   const router = useRouter();
   const prices = product.variants.map(({ prices }) => prices[0]);
   const startingPrice = Math.floor(Math.min(...prices.map(({ amount }) => amount)) / 100);
@@ -27,7 +25,7 @@ const GalleryItem = ({ product }: GalleryItemProps) => {
     >
       <div className={styles.thumbnailContainer}>
         <Image
-          src={product.thumbnail}
+          src={product.thumbnail || ""}
           width={500}
           height={500}
         />
@@ -40,10 +38,12 @@ const GalleryItem = ({ product }: GalleryItemProps) => {
   )
 }
 
-const Gallery = ({ products }: GalleryProps) => {
+const Gallery = () => {
+  const { products } = useCatalog();
+
   return (
     <div className={styles.container}>
-      {products.map((product, i) => <GalleryItem key={i} product={product} />)}
+      {products && products.map((product, i) => <GalleryItem key={i} product={product} />)}
     </div>
   )
 }

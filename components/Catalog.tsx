@@ -7,12 +7,7 @@ import {
   Product
 } from "@medusajs/medusa";
 
-type CatalogProps = {
-  collections: Collection[];
-  products: Product[];
-}
-
-const Catalog = ({ collections, products }: CatalogProps) => {
+const Catalog = () => {
   return (
     <div>
       <Head>
@@ -21,8 +16,8 @@ const Catalog = ({ collections, products }: CatalogProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-          <Sidebar collections={collections} />
-          <Gallery products={products} />
+          <Sidebar />
+          <Gallery />
       </main>
     </div>
   )
