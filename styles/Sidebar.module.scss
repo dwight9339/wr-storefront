@@ -38,6 +38,10 @@
   display: none;
 }
 
+.collectionFilterButton {
+  cursor: pointer;
+}
+
 @media screen and (max-width: breakpoints.$mobile) {
   .sidebarMain {
     display: grid;
