@@ -8,14 +8,27 @@ type CartRowProps = {
 }
 
 const CartRow = ({ item }: CartRowProps) => {
+  const { removeItem } = useCart();
+
   return (
-    <div>
+    <div className={styles.rowContainer}>
       <Image
         src={item.thumbnail || ""}
         width={50}
         height={50}
       />
       <h2>{item.title}</h2>
+      <div className={styles.deleteIcon}
+        onClick={() => {
+          removeItem(item);
+        }}
+      >
+        <Image
+          src="/images/icons/trash_icon.svg"
+          width={30}
+          height={30}
+        />
+      </div>
     </div>
   )
 }

@@ -9,8 +9,32 @@
   min-height: 50px;
   display: flex;
   flex-direction: column;
+  padding: 15px 10px;
+  gap: 10px;
+}
+
+.rowContainer {
+  display: flex;
   align-items: center;
-  justify-content: center;
+
+  h2 {
+    margin: 0px;
+    padding: 0px;
+    font-size: 1.2em;
+    font-weight: 600;
+    margin-left: 5px;
+  }
+
+  .deleteIcon {
+    margin-left: auto;
+    display: none;
+  }
+
+  &:hover {
+    .deleteIcon {
+      display: block;
+    }
+  }
 }
 
 .emptyCartMessage {
