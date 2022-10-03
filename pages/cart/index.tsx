@@ -16,7 +16,7 @@ const CartPage: NextPage = () => {
       <ActionButton 
         text="Checkout"
         action={() => console.log("Proceed to checkout")}
-        disabled={false}
+        disabled={!cart?.items?.length}
       />
     </div>
   )
