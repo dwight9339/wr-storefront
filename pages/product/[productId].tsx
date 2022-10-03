@@ -7,9 +7,9 @@ import { LineItem, ProductVariant as Variant } from "@medusajs/medusa";
 import VariantPicker from "../../components/VariantPicker";
 import Header from "../../components/Header";
 import ActionButton from "../../components/ActionButton";
-import { useProduct, useCreateLineItem } from "medusa-react";
+import { useProduct } from "medusa-react";
 import useCart from "../../hooks/useCart";
-import store from "store2";
+import QuantitySelector from "../../components/QuantitySelector";
 
 const ProductPage: NextPage = () => {
   const router = useRouter();
@@ -74,6 +74,7 @@ const ProductPage: NextPage = () => {
                 : ""
             }
           />
+          <QuantitySelector />
           <ActionButton 
             text="Add to cart"
             action={addToCart}

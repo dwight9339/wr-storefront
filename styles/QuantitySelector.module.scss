@@ -1,7 +1,21 @@
 @use "theme";
 
 .container {
-  background-color: theme.$blue_gray;
-  border: 2em theme.$tannish solid;
+  background-color: theme.$tannish;
+  width: fit-content;
+  display: flex;
+  align-items: center;  
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
   
+  .quantity {
+    font-size: 1.2em;
+    color: theme.$blue-gray;
+  }
+
+  &{
+    margin: 0px;
+    padding: 0px;
+  }
 }
