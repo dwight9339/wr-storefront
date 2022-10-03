@@ -7,13 +7,17 @@ import { ProductVariant as Variant } from "@medusajs/medusa";
 import VariantPicker from "../../components/VariantPicker";
 import Header from "../../components/Header";
 import ActionButton from "../../components/ActionButton";
-import { useProduct } from "medusa-react";
+import { useProduct, useCreateLineItem } from "medusa-react";
+import useCart from "../../hooks/useCart";
+import store from "store2";
 
 const ProductPage: NextPage = () => {
   const router = useRouter();
   const { productId } = router.query;
   const [selectedVariant, setSelectedVariant] = useState<Variant>();
   const { product, isLoading } = useProduct(`${productId}`);
+  const { cartId } = useCart();
+  const createLineItem = useCreateLineItem(cartId);
 
   const currentPrice = useMemo(() => {
     const amt = selectedVariant
@@ -32,11 +36,23 @@ const ProductPage: NextPage = () => {
     }
   }, [product]);
 
+
   const updateVariant = (variant: Variant) => {
     setSelectedVariant(() => variant);
   }
 
-  const addToCart = () => {};
+  const addToCart = async () => {
+    if (!selectedVariant) return;
+
+    try {
+      createLineItem.mutate({
+        variant_id: selectedVariant.id,
+        quantity: 1
+      })
+    } catch(err) {
+      console.error(err);
+    }
+  };
 
   if (!product) return <div></div>;
 

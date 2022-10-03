@@ -1,7 +1,7 @@
 import Image from "next/image";
 import styles from "../styles/Sidebar.module.scss";
 import { useState, useEffect } from "react";
-import { Collection } from "./types";
+import type { ProductCollection as Collection } from "@medusajs/medusa"
 
 type SidebarProps = {
   collections: Collection[];
