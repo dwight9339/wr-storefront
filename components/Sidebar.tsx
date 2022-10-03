@@ -48,6 +48,12 @@ const Sidebar = () => {
           </div>
         </div>
         <div className={menuOpen ? styles.collectionLinkContainer : styles.disappearLinks}>
+          <div 
+            className={styles.collectionFilterButton}
+            onClick={resetCollection}
+          >
+            All            
+          </div>
           {collections && collections.map((collection, i) => 
             <div
               className={styles.collectionFilterButton}
