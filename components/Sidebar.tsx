@@ -10,7 +10,7 @@ type SidebarProps = {
 
 const Sidebar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { collections, setSelectedCollection } = useCatalog();
+  const { collections, setSelectedCollection, resetCollection } = useCatalog();
 
   const toggleMenuOpen = () => setMenuOpen(!menuOpen);
 
@@ -28,7 +28,10 @@ const Sidebar = () => {
               height={50}
             />
           </div>
-          <div className={styles.logoContainer}>
+          <div 
+            className={styles.logoContainer}
+            onClick={resetCollection}
+          >
             <Image
               src="/images/wr_logo_v1.svg"
               width={100}
