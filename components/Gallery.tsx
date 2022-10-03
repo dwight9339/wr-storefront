@@ -9,7 +9,6 @@ interface GalleryItemProps {
 }
 
 const GalleryItem = ({ product }: GalleryItemProps) => {
-  const { products } = useCatalog();
   const router = useRouter();
   const prices = product.variants.map(({ prices }) => prices[0]);
   const startingPrice = Math.floor(Math.min(...prices.map(({ amount }) => amount)) / 100);
