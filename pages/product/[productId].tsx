@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import styles from "../../styles/ProductPage.module.scss";
 import Image from "next/image";
 import { useState, useEffect, useMemo } from "react";
-import { ProductVariant as Variant } from "@medusajs/medusa";
+import { LineItem, ProductVariant as Variant } from "@medusajs/medusa";
 import VariantPicker from "../../components/VariantPicker";
 import Header from "../../components/Header";
 import ActionButton from "../../components/ActionButton";
@@ -16,8 +16,7 @@ const ProductPage: NextPage = () => {
   const { productId } = router.query;
   const [selectedVariant, setSelectedVariant] = useState<Variant>();
   const { product, isLoading } = useProduct(`${productId}`);
-  const { cartId } = useCart();
-  const createLineItem = useCreateLineItem(cartId);
+  const { addItem } = useCart();
 
   const currentPrice = useMemo(() => {
     const amt = selectedVariant
@@ -45,10 +44,10 @@ const ProductPage: NextPage = () => {
     if (!selectedVariant) return;
 
     try {
-      createLineItem.mutate({
+      addItem({
         variant_id: selectedVariant.id,
         quantity: 1
-      })
+      } as LineItem);
     } catch(err) {
       console.error(err);
     }

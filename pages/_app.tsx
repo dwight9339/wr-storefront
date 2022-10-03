@@ -15,7 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       }}
       baseUrl={process.env.NEXT_PUBLIC_BACKEND_HOST || "http://localhost:9000"}
     >
-      <CartProvider>
+      <CartProvider initialState={undefined}>
         <Component {...pageProps} />
       </CartProvider>
     </MedusaProvider>
