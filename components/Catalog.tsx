@@ -2,10 +2,6 @@ import Sidebar from "../components/Sidebar";
 import Gallery from '../components/Gallery';
 import Head from 'next/head';
 import styles from '../styles/Home.module.scss';
-import {
-  ProductCollection as Collection, 
-  Product
-} from "@medusajs/medusa";
 
 const Catalog = () => {
   return (

@@ -1,8 +1,6 @@
 import type { NextPage } from 'next';
-import { useProducts, useCollections } from "medusa-react";
-
-import Catalog from '../components/Catalog';
 import { CatalogProvider } from '../providers/CatalogProvider';
+import Catalog from '../components/Catalog';
 
 const Home: NextPage = () => {
   return (
