@@ -20,7 +20,7 @@ const CartRow = ({ item }: CartRowProps) => {
   )
 }
 
-const UserCart = () => {
+const Cart = () => {
   const { cart } = useCart();
 
   return (
@@ -35,4 +35,4 @@ const UserCart = () => {
   )
 }
 
-export default UserCart;
+export default Cart;
