@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import { LineItem } from "@medusajs/medusa";
 import useRegion from "./useRegion";
 import store from "store2";
+import axios from "axios";
+import { createCipheriv } from "crypto";
 
 const useCart = () => {
   const cartProvider = useProviderCart();
@@ -14,10 +16,6 @@ const useCart = () => {
   const createLineItem = useCreateLineItem(cartId);
   const deleteLineItem = useDeleteLineItem(cartId);
   const { userRegion } = useRegion();
-
-  useEffect(() => {
-    
-  })
 
   const createCart = async () => {
     const { cart } = await cartProvider.createCart.mutateAsync({
@@ -30,11 +28,16 @@ const useCart = () => {
   }
 
   const loadCart = async () => {
-    useGetCart(cartId, {
-      onSuccess: ({ cart }) => {
-        cartProvider.setCart(cart);
-      }
-    });
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_HOST}/store/carts/${cartId}`
+      );
+      const { data: { cart } } = res;
+  
+      cartProvider.setCart(cart);
+    } catch(err) {
+      console.error(err);
+    }
   }
 
   const addItem = async ({ variant_id, quantity }: LineItem) => {
@@ -50,11 +53,15 @@ const useCart = () => {
   }
 
   useEffect(() => {
-    if (!cartProvider.cart) {
-      if (cartId) {
-        loadCart();
-      } else {
-        createCart();
+    if (!cartProvider.cart?.id) {
+      try {
+        if (cartId) {
+          loadCart();
+        } else {
+          createCart();
+        }
+      } catch(err) {
+        console.error(err);
       }
     }
   }, []);

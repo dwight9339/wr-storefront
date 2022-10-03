@@ -1,8 +1,7 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { QueryClient } from 'react-query';
-import { MedusaProvider, CartProvider, useGetCart } from 'medusa-react';
-import store from 'store2';
+import { MedusaProvider, CartProvider } from 'medusa-react';
 
 const queryClient = new QueryClient();
 

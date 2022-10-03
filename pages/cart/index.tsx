@@ -4,6 +4,7 @@ import { NextPage } from "next";
 import styles from "../../styles/CartPage.module.scss";
 import ActionButton from "../../components/ActionButton";
 import { useCart } from "medusa-react";
+import { useEffect } from "react";
 
 const CartPage: NextPage = () => {
   const { cart } = useCart();

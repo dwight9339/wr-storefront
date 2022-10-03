@@ -1,6 +1,6 @@
 import styles from "../styles/Cart.module.scss";
 import Image from "next/image";
-import { useCart, useDeleteLineItem } from "medusa-react";
+import useCart from "../hooks/useCart";
 import { LineItem } from "@medusajs/medusa";
 
 type CartRowProps = {
