@@ -2,6 +2,9 @@ import styles from "../styles/Cart.module.scss";
 import Image from "next/image";
 import useCart from "../hooks/useCart";
 import { LineItem } from "@medusajs/medusa";
+import { formatAmount } from "medusa-react";
+import useRegion from "../hooks/useRegion";
+import { useMemo } from "react";
 
 type CartRowProps = {
   item: LineItem;
@@ -9,25 +12,36 @@ type CartRowProps = {
 
 const CartRow = ({ item }: CartRowProps) => {
   const { removeItem } = useCart();
+  const { userRegion } = useRegion();
+  const price = formatAmount({
+    amount: item.total || 0,
+    region: userRegion
+  });
 
   return (
     <div className={styles.rowContainer}>
-      <Image
-        src={item.thumbnail || ""}
-        width={50}
-        height={50}
-      />
-      <h2>{item.title}</h2>
-      <div className={styles.deleteIcon}
-        onClick={() => {
-          removeItem(item);
-        }}
-      >
+      <div className={styles.leftSide}>
         <Image
-          src="/images/icons/trash_icon.svg"
-          width={30}
-          height={30}
+          src={item.thumbnail || ""}
+          width={50}
+          height={50}
         />
+        <div className={styles.productTitle}>{item.title}</div>
+        <div className={styles.variantTitle}>{item.variant.title}</div>
+      </div>
+      <div className={styles.rightSide}>
+        <div className={styles.price}>{price}</div>
+        <div className={styles.deleteIcon}
+          onClick={() => {
+            removeItem(item);
+          }}
+        >
+          <Image
+            src="/images/icons/trash_icon.svg"
+            width={30}
+            height={30}
+          />
+        </div>
       </div>
     </div>
   )
@@ -35,15 +49,40 @@ const CartRow = ({ item }: CartRowProps) => {
 
 const Cart = () => {
   const { cart } = useCart();
+  const { userRegion } = useRegion();
+  const total = formatAmount({
+      amount: cart?.total || 0,
+      region: userRegion
+  });
+
+  const content = useMemo(() => {
+    if (cart?.items?.length) {
+      return (
+        <>
+          <div className={styles.itemsContainer}>
+            { 
+              cart?.items.map((item: LineItem, i: number) => {
+                return <CartRow key={i} item={item} />;
+              })
+            }
+          </div>
+          <div className={styles.totalContainer}>
+            <h2>Total: {total}</h2>
+          </div>
+        </>
+      )
+    }
+
+    return (
+      <div className={styles.noItems}>
+        Cart is empty
+      </div>
+    )
+  }, [cart])
 
   return (
     <div className={styles.container}>
-      { cart?.items.length 
-        ? cart?.items.map((item: LineItem, i: number) => {
-          return <CartRow key={i} item={item} />;
-        })
-        : <div className={styles.noItems}>Cart is empty</div>
-      }
+      {content}
     </div>
   )
 }

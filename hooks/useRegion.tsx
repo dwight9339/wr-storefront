@@ -4,16 +4,20 @@ import { useEffect, useState } from "react";
 
 const useRegion = () => {
   const { regions } = useRegions();
-  const [userRegion, setUserRegion] = useState<Region>();
+  const [userRegion, setUserRegion] = useState<Region>({
+    name: "US",
+    currency_code: "usd",
+    tax_rate: 0
+  } as Region);
   
-  // To do: Fetch region based on user's location
-  const getUserRegion = () => {
-    setUserRegion(regions && regions[0]);
+  const updateUserRegion = () => {
+    if (!regions?.length) return;
+    setUserRegion(regions[0]);
   }
 
   useEffect(() => {
-    if (!userRegion) getUserRegion();
-  }, [regions, userRegion]);
+    updateUserRegion();
+  }, [regions]);
 
   return { userRegion };
 }
