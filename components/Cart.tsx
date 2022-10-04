@@ -5,18 +5,28 @@ import { LineItem } from "@medusajs/medusa";
 import { formatAmount } from "medusa-react";
 import useRegion from "../hooks/useRegion";
 import { useMemo } from "react";
+import QuantitySelector from "./QuantitySelector";
 
 type CartRowProps = {
   item: LineItem;
 }
 
 const CartRow = ({ item }: CartRowProps) => {
-  const { removeItem } = useCart();
+  const { removeItem, updateItemQuantity } = useCart();
   const { userRegion } = useRegion();
   const price = formatAmount({
     amount: item.total || 0,
     region: userRegion
   });
+
+  const incrementQuantity = () => {
+    updateItemQuantity(item, item.quantity + 1);
+  }
+
+  const decrementQuantity = () => {
+    if (item.quantity === 1) return;
+    updateItemQuantity(item, item.quantity - 1);
+  }
 
   return (
     <div className={styles.rowContainer}>
@@ -28,6 +38,11 @@ const CartRow = ({ item }: CartRowProps) => {
         />
         <div className={styles.productTitle}>{item.title}</div>
         <div className={styles.variantTitle}>{item.variant.title}</div>
+        <QuantitySelector
+          quantity={item.quantity}
+          incrementQuantity={incrementQuantity}
+          decrementQuantity={decrementQuantity}
+        />
       </div>
       <div className={styles.rightSide}>
         <div className={styles.price}>{price}</div>

@@ -1,9 +1,10 @@
 import { useCart as useProviderCart,
   useGetCart,
   useCreateLineItem,
-  useDeleteLineItem
+  useDeleteLineItem,
+  useUpdateLineItem
 } from "medusa-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { LineItem } from "@medusajs/medusa";
 import useRegion from "./useRegion";
 import store from "store2";
@@ -13,6 +14,7 @@ const useCart = () => {
   const [cartId, setCartId] = useState<string>(store.get("cartId"));
   const createLineItem = useCreateLineItem(cartId);
   const deleteLineItem = useDeleteLineItem(cartId);
+  const updateLineItem = useUpdateLineItem(cartId);
   const { cart, isLoading, refetch } = useGetCart(cartId);
   const { userRegion } = useRegion();
 
@@ -42,12 +44,24 @@ const useCart = () => {
     });
   }
 
+  const updateItemQuantity = async ({ id }: LineItem, quantity: number) => {
+    updateLineItem.mutate({
+      lineId: id,
+      quantity
+    }, {
+      onSuccess: () => {
+        refetch();
+      }
+    })
+  }
+
   return {
     ...cartProvider,
     cart,
     loading: isLoading,
     addItem,
-    removeItem
+    removeItem,
+    updateItemQuantity
   };
 }
 
