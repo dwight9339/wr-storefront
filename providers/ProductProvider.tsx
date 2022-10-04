@@ -5,7 +5,7 @@ import { Product, ProductVariant } from "@medusajs/medusa";
 interface ProductState {
   product?: Product;
   selectedVariant?: ProductVariant;
-  quantity: Number;
+  quantity: number;
 }
 
 interface ProductContext extends ProductState {

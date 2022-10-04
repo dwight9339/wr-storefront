@@ -2,9 +2,17 @@ import styles from "../styles/QuantitySelector.module.scss";
 import Image from "next/image";
 import { useProduct } from "../providers/ProductProvider";
 
-const QuantitySelector = () => {
-  const { quantity, incrementQuantity, decrementQuantity } = useProduct();
+type QuantitySelectorProps = {
+  quantity: number;
+  incrementQuantity: () => void;
+  decrementQuantity: () => void;
+}
 
+const QuantitySelector = ({
+  quantity,
+  incrementQuantity,
+  decrementQuantity
+}: QuantitySelectorProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.inner}>

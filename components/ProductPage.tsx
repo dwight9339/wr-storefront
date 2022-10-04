@@ -11,7 +11,13 @@ import { useProduct } from "../providers/ProductProvider";
 
 const ProductPage = () => {
   const { addItem } = useCart();
-  const { product, selectedVariant } = useProduct();
+  const {
+    product,
+    selectedVariant,
+    quantity,
+    incrementQuantity,
+    decrementQuantity
+  } = useProduct();
 
   const currentPrice = useMemo(() => {
     const amt = selectedVariant
@@ -48,7 +54,11 @@ const ProductPage = () => {
           <p>{product.description}</p>
           <h3>${currentPrice}</h3>
           <VariantPicker />
-          <QuantitySelector />
+          <QuantitySelector 
+            quantity={quantity}
+            incrementQuantity={incrementQuantity}
+            decrementQuantity={decrementQuantity}
+          />
           <ActionButton 
             text="Add to cart"
             action={addToCart}
