@@ -1,20 +1,25 @@
 @use "theme";
 
 .container {
-  background-color: theme.$tannish;
   width: fit-content;
-  display: flex;
-  align-items: center;  
-  justify-content: center;
-  gap: 20px;
-  padding: 20px;
+  padding: 20px 0px;
+
+  .inner {
+    background-color: theme.$tannish;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 12px 20px;
+  }
   
   .quantity {
-    font-size: 1.2em;
+    font-size: 1.5em;
+    font-weight: 600;
     color: theme.$blue-gray;
   }
 
-  &{
+  & {
     margin: 0px;
     padding: 0px;
   }

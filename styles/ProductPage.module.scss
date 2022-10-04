@@ -8,6 +8,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .contentContainer {
@@ -15,11 +17,23 @@
   max-width: 1100px;
   padding: 30px 0px;
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;  
 }
 
 .infoContainer {
-  padding: 15px 20px;
+  padding: 0px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  h1, p, h3 {
+    margin: 0px;
+  }
+
+  h3 {
+    font-size: 1.7em;
+  }
 }
 
 @media screen and (max-width: breakpoints.$mobile) {
