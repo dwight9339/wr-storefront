@@ -1,42 +1,38 @@
 import styles from "../styles/VariantPicker.module.scss";
 import { ProductVariant as Variant } from "@medusajs/medusa";
+import { useProduct } from "../providers/ProductProvider";
 
 type VariantPickerItemProps = {
   variant: Variant;
-  updateSelected: Function;
   selected: Boolean;
-}
-
-type VariantPickerProps = {
-  variants: Variant[];
-  updateSelected: Function;
-  selectedId: string;
 }
 
 const VariantPickerItem = ({ 
   variant,
-  updateSelected,
   selected
 }: VariantPickerItemProps) => {
+  const { selectVariant } = useProduct();
+
   return (
     <div 
       className={`${styles.itemContainer} ${selected && styles.selected}`}
-      onClick={() => updateSelected(variant)}  
+      onClick={() => selectVariant(variant)}  
     >
       <h3>{variant.title}</h3>
     </div>
   )
 }
 
-const VariantPicker = ({ variants, updateSelected, selectedId }: VariantPickerProps) => {
+const VariantPicker = () => {
+  const { product, selectedVariant } = useProduct();
+
   return (
     <div className={styles.pickerContainer}>
-      {variants.map((variant, i) => {
+      {product && product.variants.map((variant, i) => {
         return <VariantPickerItem 
           key={i}
           variant={variant} 
-          updateSelected={updateSelected} 
-          selected={variant.id === selectedId}
+          selected={variant.id === selectedVariant?.id}
         />;
       })} 
     </div>
