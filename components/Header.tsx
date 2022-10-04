@@ -1,27 +1,19 @@
-import ReturnButton from "./ReturnButton";
 import styles from "../styles/Header.module.scss";
 import Image from "next/image";
+import Link from "next/link";
 
-type HeaderProps = {
-  returnButtonText: string;
-}
-
-const Header = ({ returnButtonText }: HeaderProps) => {
+const Header = () => {
   return (
     <div className={styles.header}>
-      <div>
-        <ReturnButton 
-          text={returnButtonText} 
-        />
-      </div>
       <div className={styles.logoDiv}>
-        <Image
-          src="/images/wr_logo_v1_light.svg"
-          width={100}
-          height={100}
-        />
+        <Link href="/">
+          <Image
+            src="/images/wr_logo_v1_light.svg"
+            width={100}
+            height={100}
+          />
+        </Link>
       </div>
-      <div></div>
     </div>    
   )
 }

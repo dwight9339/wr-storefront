@@ -41,9 +41,7 @@ const ProductPage = () => {
 
   return (
     <div className={styles.pageContainer}>
-      <Header 
-        returnButtonText="Back to gallery"
-      />
+      <Header />
       <div className={styles.contentContainer}>
         <div className={styles.infoContainer}>
           <h1>{product.title}</h1>
