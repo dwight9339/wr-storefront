@@ -1,18 +1,18 @@
 import styles from "../styles/Cart.module.scss";
 import Image from "next/image";
-import useCart from "../hooks/useCart";
 import { LineItem } from "@medusajs/medusa";
 import { formatAmount } from "medusa-react";
 import useRegion from "../hooks/useRegion";
 import { useMemo } from "react";
 import QuantitySelector from "./QuantitySelector";
+import { useCart } from "../providers/CartProvider";
 
 type CartRowProps = {
   item: LineItem;
 }
 
 const CartRow = ({ item }: CartRowProps) => {
-  const { removeItem, updateItemQuantity } = useCart();
+  const { removeItem, updateQuantity } = useCart();
   const { userRegion } = useRegion();
   const price = formatAmount({
     amount: item.total || 0,
@@ -20,12 +20,12 @@ const CartRow = ({ item }: CartRowProps) => {
   });
 
   const incrementQuantity = () => {
-    updateItemQuantity(item, item.quantity + 1);
+    updateQuantity(item, item.quantity + 1);
   }
 
   const decrementQuantity = () => {
     if (item.quantity === 1) return;
-    updateItemQuantity(item, item.quantity - 1);
+    updateQuantity(item, item.quantity - 1);
   }
 
   return (
@@ -63,7 +63,7 @@ const CartRow = ({ item }: CartRowProps) => {
 }
 
 const Cart = () => {
-  const { cart } = useCart();
+  const { cart, loading } = useCart();
   const { userRegion } = useRegion();
   const total = formatAmount({
       amount: cart?.total || 0,
@@ -71,6 +71,7 @@ const Cart = () => {
   });
 
   const content = useMemo(() => {
+    if (loading) return;
     if (cart?.items?.length) {
       return (
         <>

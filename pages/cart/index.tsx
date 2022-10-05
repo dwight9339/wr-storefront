@@ -3,18 +3,18 @@ import Header from "../../components/Header";
 import { NextPage } from "next";
 import styles from "../../styles/CartPage.module.scss";
 import ActionButton from "../../components/ActionButton";
-import useCart from "../../hooks/useCart";
+import { useCart } from "../../providers/CartProvider";
 import { useRouter } from "next/router";
 
 const CartPage: NextPage = () => {
   const router = useRouter();
-  const { cart, loading, startCheckout } = useCart();
+  const { cart } = useCart();
 
   const initiateCheckout = async () => {
-    const { cart } = await startCheckout.mutateAsync();
-    console.log(`Client secret: ${cart.payment_session?.data.client_secret}`);
+    // const { cart } = await startCheckout.mutateAsync();
+    // console.log(`Client secret: ${cart.payment_session?.data.client_secret}`);
 
-    router.push("/checkout");
+    // router.push("/checkout");
   }
 
   return (
@@ -26,7 +26,6 @@ const CartPage: NextPage = () => {
         action={initiateCheckout}
         disabled={
           !cart?.items?.length
-          && loading
         }
       />
     </div>

@@ -5,9 +5,9 @@ import { LineItem, ProductVariant as Variant } from "@medusajs/medusa";
 import VariantPicker from "../components/VariantPicker";
 import Header from "../components/Header";
 import ActionButton from "../components/ActionButton";
-import useCart from "../hooks/useCart";
 import QuantitySelector from "../components/QuantitySelector";
 import { useProduct } from "../providers/ProductProvider";
+import { useCart } from "../providers/CartProvider";
 
 const ProductPage = () => {
   const { addItem } = useCart();
