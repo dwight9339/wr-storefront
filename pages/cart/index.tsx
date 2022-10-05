@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 
 const CartPage: NextPage = () => {
   const router = useRouter();
-  const { cart } = useCart();
+  const { cart, loading } = useCart();
 
   const initiateCheckout = async () => {
     // const { cart } = await startCheckout.mutateAsync();
@@ -26,6 +26,7 @@ const CartPage: NextPage = () => {
         action={initiateCheckout}
         disabled={
           !cart?.items?.length
+          || loading
         }
       />
     </div>
