@@ -3,19 +3,31 @@ import Header from "../../components/Header";
 import { NextPage } from "next";
 import styles from "../../styles/CartPage.module.scss";
 import ActionButton from "../../components/ActionButton";
-import { useCart } from "medusa-react";
+import useCart from "../../hooks/useCart";
+import { useRouter } from "next/router";
 
 const CartPage: NextPage = () => {
-  const { cart } = useCart();
+  const router = useRouter();
+  const { cart, loading, startCheckout } = useCart();
+
+  const initiateCheckout = async () => {
+    const { cart } = await startCheckout.mutateAsync();
+    console.log(`Client secret: ${cart.payment_session?.data.client_secret}`);
+
+    router.push("/checkout");
+  }
 
   return (
     <div className={styles.container}>
-      <Header returnButtonText="Continue shopping" />
+      <Header />
       <Cart />
       <ActionButton 
         text="Checkout"
-        action={() => console.log("Proceed to checkout")}
-        disabled={!cart?.items?.length}
+        action={initiateCheckout}
+        disabled={
+          !cart?.items?.length
+          && loading
+        }
       />
     </div>
   )
