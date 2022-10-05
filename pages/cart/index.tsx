@@ -11,10 +11,7 @@ const CartPage: NextPage = () => {
   const { cart, loading } = useCart();
 
   const initiateCheckout = async () => {
-    // const { cart } = await startCheckout.mutateAsync();
-    // console.log(`Client secret: ${cart.payment_session?.data.client_secret}`);
-
-    // router.push("/checkout");
+    // Todo
   }
 
   return (

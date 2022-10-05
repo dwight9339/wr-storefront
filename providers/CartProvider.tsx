@@ -1,11 +1,14 @@
-import { Cart, LineItem } from "@medusajs/medusa";
+import { Cart, LineItem, PaymentProvider } from "@medusajs/medusa";
 import { createContext, useContext, useState } from "react";
 import { 
   useCreateCart,
   useGetCart,
   useCreateLineItem,
   useDeleteLineItem,
-  useUpdateLineItem
+  useUpdateLineItem,
+  useCompleteCart,
+  useCreatePaymentSession,
+  useSetPaymentSession
 } from "medusa-react";
 import useRegion from "../hooks/useRegion";
 import store from "store2";
@@ -19,6 +22,8 @@ interface CartContext extends CartState {
   addItem: (item: LineItem) => void;
   removeItem: (item: LineItem) => void;
   updateQuantity: (item: LineItem, quantity: number) => void;
+  startCheckout: () => void;
+  finishCheckout: () => void;
 }
 
 const CartContext = createContext<CartContext | null>(null);
@@ -43,6 +48,9 @@ export const CartProvider = ({ children }: ProviderProps) => {
   const createLineItem = useCreateLineItem(cartId);
   const deleteLineItem = useDeleteLineItem(cartId);
   const updateLineItem = useUpdateLineItem(cartId);
+  const createPaymentSession = useCreatePaymentSession(cartId);
+  const setPaymentSession = useSetPaymentSession(cartId);
+  const completeCart = useCompleteCart(cartId);
   const { userRegion } = useRegion();
 
   const addItem = (item: LineItem) => {
@@ -83,6 +91,14 @@ export const CartProvider = ({ children }: ProviderProps) => {
     });
   }
 
+  const startCheckout = async () => {
+    createPaymentSession.mutate();
+  }
+
+  const finishCheckout = () => {
+    completeCart.mutate();
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -90,7 +106,9 @@ export const CartProvider = ({ children }: ProviderProps) => {
         loading: isLoading,
         addItem,
         removeItem,
-        updateQuantity
+        updateQuantity,
+        startCheckout,
+        finishCheckout
       }}
     >
       {children}
