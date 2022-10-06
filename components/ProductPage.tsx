@@ -68,7 +68,7 @@ const ProductPage = () => {
             <ActionButton 
               text="Add to cart"
               action={addToCart}
-              disabled={false}
+              disabled={showCartSlider}
             />
           </div>
           <div className={styles.photoContainer}>
