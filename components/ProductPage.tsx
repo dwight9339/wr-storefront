@@ -40,7 +40,7 @@ const ProductPage = () => {
     try {
       addItem({
         variant_id: selectedVariant.id,
-        quantity: 1
+        quantity: quantity
       } as LineItem);
       toggleShowCartSlider();
     } catch(err) {
