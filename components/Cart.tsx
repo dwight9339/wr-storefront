@@ -30,7 +30,7 @@ const CartRow = ({ item }: CartRowProps) => {
 
   return (
     <div className={styles.rowContainer}>
-      <div className={styles.leftSide}>
+      <div className={styles.productInfo}>
         <Image
           src={item.thumbnail || ""}
           width={50}
@@ -38,6 +38,8 @@ const CartRow = ({ item }: CartRowProps) => {
         />
         <div className={styles.productTitle}>{item.title}</div>
         <div className={styles.variantTitle}>{item.variant.title}</div>
+      </div>
+      <div className={styles.quantitySelectorContainer}>
         <QuantitySelector
           quantity={item.quantity}
           incrementQuantity={incrementQuantity}
