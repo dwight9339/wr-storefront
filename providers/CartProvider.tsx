@@ -62,6 +62,7 @@ export const CartProvider = ({ children }: ProviderProps) => {
         onSuccess: ({ cart }) => {
           setCartId(cart.id);
           store.set("cartId", cart.id);
+          refetch();
         }
       });
     } else {
@@ -71,6 +72,7 @@ export const CartProvider = ({ children }: ProviderProps) => {
       }, {
         onSuccess: ({ cart }) => {
           setCartId(cart.id);
+          refetch();
         }
       });
     }
