@@ -3,6 +3,7 @@ import styles from "../styles/Sidebar.module.scss";
 import { useState, useEffect } from "react";
 import type { ProductCollection as Collection } from "@medusajs/medusa"
 import { useCatalog } from "../providers/CatalogProvider";
+import CartIcon from "./CartIcon";
 
 type SidebarProps = {
   collections: Collection[];
@@ -63,6 +64,9 @@ const Sidebar = () => {
               {collection.title}
             </div>
           )}
+        </div>
+        <div className={styles.cartIcon}>
+          <CartIcon />
         </div>
       </div>
   )
