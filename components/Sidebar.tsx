@@ -21,12 +21,15 @@ const Sidebar = () => {
 
   return (
       <div className={styles.sidebarContainer}>
-        <div className={styles.sidebarMain}>
-          <div className={styles.cartContainer}>
+        <div className={styles.header}>
+          <div
+            className={styles.hamburgerContainer}
+            onClick={toggleMenuOpen}
+          >
             <Image
-              src="/images/icons/cart.svg"
-              width={50}
-              height={50}
+              src="/images/icons/basic_hamburger.svg"
+              width={40}
+              height={40}
             />
           </div>
           <div 
@@ -39,13 +42,8 @@ const Sidebar = () => {
               height={100}
             />
           </div>
-          <div className={styles.hamburgerContainer}>
-            <Image
-              src={"/images/icons/basic_hamburger.svg"}
-              width={30}
-              height={30}
-              onClick={toggleMenuOpen}
-            />
+          <div className={styles.cartIconHorizontal}>
+            <CartIcon />
           </div>
         </div>
         <div className={menuOpen ? styles.collectionLinkContainer : styles.disappearLinks}>
@@ -65,9 +63,10 @@ const Sidebar = () => {
             </div>
           )}
         </div>
-        <div className={styles.cartIcon}>
+        <div className={styles.cartIconVertical}>
           <CartIcon />
         </div>
+        
       </div>
   )
 }

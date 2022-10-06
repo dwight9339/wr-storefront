@@ -21,8 +21,10 @@
   @extend .collectionLinkContainer;
 }
 
-.sidebarMain {
-  display: block;
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cartContainer {
@@ -44,30 +46,39 @@
   cursor: pointer;
 }
 
-.cartIcon {
+.cartIconVertical {
   margin-top: 40px;
 }
 
+.cartIconHorizontal {
+  display: none;
+}
+
 @media screen and (max-width: breakpoints.$mobile) {
-  .sidebarMain {
+  .header {
+    width: 90%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-  }
-
-  .cartContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .hamburgerContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 
   .disappearLinks {
     display: none;
     height: none;
+  }
+
+  .hamburgerContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .cartIconVertical {
+    display: none;
+  }
+
+  .cartIconHorizontal {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
 }
