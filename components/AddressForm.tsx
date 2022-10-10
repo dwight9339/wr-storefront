@@ -62,7 +62,7 @@ const AddressForm = ({ onSubmit }: AddressFormProps) => {
   }
 
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={handleSubmit}>
       <Field 
         label="Email"
         type="email"
