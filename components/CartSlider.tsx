@@ -1,15 +1,25 @@
+import axios from "axios";
 import Image from "next/image";
 import styles from "../styles/CartSlider.module.scss";
 import ActionButton from "./ActionButton";
 import Cart from "./Cart";
+import { useCart } from "../providers/CartProvider";
 
 type CartSliderProps = {
   onClose: () => void;
 }
 
 const CartSlider = ({ onClose }: CartSliderProps) => {
-  const initiateCheckout = () => {
-    console.log("Proceeding to checkout");
+  const { cart } = useCart();
+  
+  const initiateCheckout = async () => {
+    try {
+      const res = await axios.post("http://localhost:9000/store/create-checkout", {
+        cartId: cart?.id
+      })
+    } catch(err) {
+      console.error(err);
+    }
   }
   
   return (
@@ -25,11 +35,14 @@ const CartSlider = ({ onClose }: CartSliderProps) => {
         />
       </div>
       <Cart />
-      <ActionButton
-        text="Checkout"
-        action={initiateCheckout}
-        disabled={false}
-      />
+      {
+        cart?.items.length > 0 &&
+        <ActionButton
+          text="Checkout"
+          action={initiateCheckout}
+          disabled={false}
+        />
+      }
     </div>
   )
 }
