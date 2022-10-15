@@ -41,7 +41,7 @@ export const CatalogProvider = ({ children }: ProviderProps) => {
   const { collections, refetch: refetchCollections } = useCollections();
   const { products, count } = useProducts({
     collection_id: currentCollection,
-    offset: pageSize * (currentPage - 1),
+    offset: pageSize * currentPage,
     limit: pageSize
   });
   
