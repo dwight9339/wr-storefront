@@ -2,6 +2,7 @@ import AddressForm from "./AddressForm";
 // import PaymentForm from "./PaymentForm";
 import styles from "../styles/Checkout.module.scss";
 import { useCheckout } from "../providers/CheckoutProvider";
+import { useEffect } from "react";
 
 
 const CheckoutForm = () => {
@@ -15,6 +16,11 @@ const CheckoutForm = () => {
     completeCheckout
   } = useCheckout();
 
+  useEffect(() => {
+    if (isValidAddress) {
+      getShippingRates();
+    }
+  }, [isValidAddress]);
 
   return (
     <div>
@@ -24,7 +30,9 @@ const CheckoutForm = () => {
         />
       </div>
       <div>
-        
+        {shippingRates?.map((rate, i) => {
+          return <div key={i}>{rate.provider} - {rate.servicelevel.name}</div>
+        })}
       </div>
       <div>
         {/* <PaymentForm /> */}

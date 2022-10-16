@@ -48,7 +48,16 @@ export const CheckoutProvider = ({ children }: ProviderProps) => {
   const getShippingRates = async () => {
     const { data: { rates } } = await axios.post("/api/create-shipment", {
       addressId,
-      items: cart?.items
+      items: cart?.items.map((item) => {
+        return {
+          height: item.variant.height,
+          width: item.variant.width,
+          length: item.variant.length,
+          weight: item.variant.weight,
+          distance_unit: "in",
+          mass_unit: "lb"
+        }
+      })
     });
     setShippingRates(rates);
   }
