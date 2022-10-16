@@ -1,5 +1,5 @@
 import AddressForm from "./AddressForm";
-import PaymentForm from "./PaymentForm";
+// import PaymentForm from "./PaymentForm";
 import styles from "../styles/Checkout.module.scss";
 import { useCheckout } from "../providers/CheckoutProvider";
 
@@ -27,7 +27,7 @@ const CheckoutForm = () => {
         
       </div>
       <div>
-        <PaymentForm />
+        {/* <PaymentForm /> */}
       </div>
     </div>
   )
