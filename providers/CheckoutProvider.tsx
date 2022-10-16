@@ -35,7 +35,7 @@ export const CheckoutProvider = ({ children }: ProviderProps) => {
   const { cart } = useCart();
   const [addressId, setAddressId] = useState<string>();
   const [isValidAddress, setIsValidAddress] = useState<boolean>(false);
-  const [shippingRates, setShippingRates] = useState<any[]>();
+  const [shippingRates, setShippingRates] = useState<any[]>([]);
   const [selectedRate, setSelectedRate] = useState<string>();
 
   const validateAddress = async (address: object) => {
@@ -57,7 +57,7 @@ export const CheckoutProvider = ({ children }: ProviderProps) => {
     setSelectedRate(rateId);
   }
 
-  const completeCheckout = async () => {
+  const completeCheckout = async  () => {
     // To do
   }
 
