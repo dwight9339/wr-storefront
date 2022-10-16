@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useCart } from "../providers/CartProvider";
 import styles from "../styles/CartSlider.module.scss";
 import ActionButton from "./ActionButton";
 import Cart from "./Cart";
@@ -8,6 +9,8 @@ type CartSliderProps = {
 }
 
 const CartSlider = ({ onClose }: CartSliderProps) => {
+  const { cart } = useCart();
+
   const initiateCheckout = () => {
     console.log("Proceeding to checkout");
   }
@@ -25,11 +28,14 @@ const CartSlider = ({ onClose }: CartSliderProps) => {
         />
       </div>
       <Cart />
-      <ActionButton
-        text="Checkout"
-        action={initiateCheckout}
-        disabled={false}
-      />
+      {
+        cart && cart.items.length > 0 &&
+        <ActionButton
+          text="Checkout"
+          action={initiateCheckout}
+          disabled={false}
+        />
+      }
     </div>
   )
 }
