@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: process.env.IMAGE_DOMAIN ? [process.env.IMAGE_DOMAIN] : null
+    domains: [process.env.IMAGE_DOMAIN, "shippo-static.s3.amazonaws.com"]
   }
 }
 

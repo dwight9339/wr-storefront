@@ -4,7 +4,7 @@ import axios from "axios";
 
 interface CheckoutState {
   isValidAddress: boolean;
-  shippingRates: any[] | undefined;
+  shippingRates: any[];
   selectedRate: string | undefined;
 }
 
