@@ -1,0 +1,9 @@
+@use "theme";
+
+.container {
+  height: 100vh;
+  background-color: theme.$blue-gray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
