@@ -1,6 +1,5 @@
 import axios from "axios";
 import Image from "next/image";
-import { useCart } from "../providers/CartProvider";
 import styles from "../styles/CartSlider.module.scss";
 import ActionButton from "./ActionButton";
 import Cart from "./Cart";
