@@ -8,7 +8,8 @@ import {
   useUpdateLineItem,
   useCompleteCart,
   useCreatePaymentSession,
-  useSetPaymentSession
+  useSetPaymentSession,
+  useUpdateCart
 } from "medusa-react";
 import useRegion from "../hooks/useRegion";
 import store from "store2";
@@ -48,6 +49,7 @@ export const CartProvider = ({ children }: ProviderProps) => {
   const createLineItem = useCreateLineItem(cartId);
   const deleteLineItem = useDeleteLineItem(cartId);
   const updateLineItem = useUpdateLineItem(cartId);
+  const updateCart = useUpdateCart(cartId);
   const createPaymentSession = useCreatePaymentSession(cartId);
   const setPaymentSession = useSetPaymentSession(cartId);
   const completeCart = useCompleteCart(cartId);
@@ -94,7 +96,28 @@ export const CartProvider = ({ children }: ProviderProps) => {
   }
 
   const startCheckout = async () => {
-    createPaymentSession.mutate();
+    const { cart } = await createPaymentSession.mutateAsync();
+
+    if (cart.payment_session?.provider_id !== "stripe") {
+      await setPaymentSession.mutateAsync({
+        provider_id: "stripe"
+      });
+    }
+  }
+
+  const setShippingAddress = async (address: any) => {
+    await updateCart.mutateAsync({
+      shipping_address: {
+        first_name: address.name.split(" ")[0],
+        last_name: address.name.split(" ")[1],
+        address_1: address.street1,
+        address_2: address.street2,
+        city: address.city,
+        country_code: address.country,
+        province: address.state,
+        postal_code: address.zip
+      }
+    })
   }
 
   const finishCheckout = () => {
