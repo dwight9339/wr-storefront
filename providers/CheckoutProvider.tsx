@@ -66,6 +66,8 @@ export const CheckoutProvider = ({ children }: ProviderProps) => {
     setSelectedRate(rateId);
   }
 
+  // const 
+
   const completeCheckout = async  () => {
     // To do
   }

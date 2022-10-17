@@ -24,6 +24,7 @@ interface CartContext extends CartState {
   removeItem: (item: LineItem) => void;
   updateQuantity: (item: LineItem, quantity: number) => void;
   startCheckout: () => void;
+  setShippingAddress: (address: any) => void;
   finishCheckout: () => void;
 }
 
@@ -133,6 +134,7 @@ export const CartProvider = ({ children }: ProviderProps) => {
         removeItem,
         updateQuantity,
         startCheckout,
+        setShippingAddress,
         finishCheckout
       }}
     >
