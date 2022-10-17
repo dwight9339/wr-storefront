@@ -13,7 +13,6 @@ const CheckoutForm = () => {
     selectedRate,
     validateAddress,
     getShippingRates,
-    setShipping,
     completeCheckout
   } = useCheckout();
 
