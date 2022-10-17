@@ -7,16 +7,7 @@ const CreateShipment: NextApiHandler = async (req, res) => {
   try {
     const { addressId, items } = req.body;
     const { data } = await axios.post("https://api.goshippo.com/shipments", {
-      address_from: {
-        name: "David White",
-        street1: "1 Aspen Dr",
-        street2: "Mail Box #54",
-        city: "Loveland",
-        state: "CO",
-        zip: "80634",
-        country: "US",
-        email: "whited9339@gmail.com"
-      }, 
+      address_from: process.env.SHIPPO_FROM_ADDRESS_ID,
       address_to: addressId,
       parcels: items
     }, {
