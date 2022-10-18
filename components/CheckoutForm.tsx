@@ -50,7 +50,7 @@ const CheckoutForm = () => {
           />
         }
       </div>
-      <div>
+      {/* <div>
         <>
           {
             cart?.payment_session?.data.client_secret &&
@@ -64,7 +64,7 @@ const CheckoutForm = () => {
             </Elements>
           }
         </>
-      </div>
+      </div> */}
     </div>
   )
 }
