@@ -36,7 +36,7 @@ export default async function createCheckout(req: NextApiRequest, res: NextApiRe
               description: `${cart.shipping_methods[0].data.provider}`,
               images: [cart.shipping_methods[0].data.provider_image_200]
             },
-            unit_amount_decimal: cart.shipping_methods[0].data.amount,
+            unit_amount: cart.shipping_methods[0].price,
           },
           quantity: 1
         }
