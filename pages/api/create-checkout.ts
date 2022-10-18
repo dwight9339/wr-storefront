@@ -11,8 +11,8 @@ export default async function createCheckout(req: NextApiRequest, res: NextApiRe
     const { origin } = req.headers;
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
-      success_url: `${origin}/checkout`,
-      cancel_url: `${origin}`,
+      success_url: `${origin}/checkout-results`,
+      cancel_url: `${origin}/checkout-results`,
       line_items: [
         ...cart.items.map((item: LineItem) => {
           return {
