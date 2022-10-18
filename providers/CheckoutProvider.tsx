@@ -32,7 +32,7 @@ export const useCheckout = () => {
 }
 
 export const CheckoutProvider = ({ children }: ProviderProps) => {
-  const { cart } = useCart();
+  const { cart, setShippingAddress } = useCart();
   const [addressId, setAddressId] = useState<string>();
   const [isValidAddress, setIsValidAddress] = useState<boolean>(false);
   const [shippingRates, setShippingRates] = useState<any[]>([]);
@@ -43,6 +43,7 @@ export const CheckoutProvider = ({ children }: ProviderProps) => {
     if (!isValid) throw new Error("Invalid address");
     setAddressId(addressId);
     setIsValidAddress(isValid);
+    setShippingAddress(address);
   }
 
   const getShippingRates = async () => {
