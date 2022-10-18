@@ -99,9 +99,9 @@ export const CartProvider = ({ children }: ProviderProps) => {
   const startCheckout = async () => {
     const { cart } = await createPaymentSession.mutateAsync();
 
-    if (cart.payment_session?.provider_id !== "stripe") {
+    if (cart.payment_session?.provider_id !== "manual") {
       await setPaymentSession.mutateAsync({
-        provider_id: "stripe"
+        provider_id: "manual"
       });
     }
   }
