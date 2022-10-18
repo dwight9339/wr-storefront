@@ -1,5 +1,5 @@
 import { Cart, LineItem, PaymentProvider } from "@medusajs/medusa";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { 
   useCreateCart,
   useGetCart,
@@ -9,7 +9,8 @@ import {
   useCompleteCart,
   useCreatePaymentSession,
   useSetPaymentSession,
-  useUpdateCart
+  useUpdateCart,
+  useCreateCustomer
 } from "medusa-react";
 import useRegion from "../hooks/useRegion";
 import store from "store2";
@@ -47,6 +48,7 @@ export const CartProvider = ({ children }: ProviderProps) => {
   const [cartId, setCartId] = useState<string>(store.get("cartId"));
   const { cart, isLoading, refetch } = useGetCart(cartId);
   const createCart = useCreateCart();
+  const createCustomer = useCreateCustomer();
   const createLineItem = useCreateLineItem(cartId);
   const deleteLineItem = useDeleteLineItem(cartId);
   const updateLineItem = useUpdateLineItem(cartId);
@@ -56,13 +58,22 @@ export const CartProvider = ({ children }: ProviderProps) => {
   const completeCart = useCompleteCart(cartId);
   const { userRegion } = useRegion();
 
+  useEffect(() => {
+    // To do: Figure out how to set anon customer better
+    if (cart && !cart.customer_id) {
+      updateCart.mutate({
+        customer_id: "cus_01GFNRP1AR95D1QSC5C18SA1NR"
+      });
+    }
+  }, [cart]);
+
   const addItem = (item: LineItem) => {
     if (!cartId) {
       createCart.mutate({
         region_id: userRegion.id,
         items: [item]
       }, {
-        onSuccess: ({ cart }) => {
+        onSuccess: async ({ cart }) => {
           setCartId(cart.id);
           store.set("cartId", cart.id);
           refetch();
