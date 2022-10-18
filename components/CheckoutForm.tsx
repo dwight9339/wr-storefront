@@ -1,12 +1,9 @@
 import AddressForm from "./AddressForm";
-import PaymentForm from "./PaymentForm";
 import styles from "../styles/Checkout.module.scss";
 import { useCheckout } from "../providers/CheckoutProvider";
 import { useCart } from "../providers/CartProvider";
 import { useEffect } from "react";
 import ShippingSelector from "./ShippingSelector";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
 import ActionButton from "./ActionButton";
 import {
   useAddShippingMethodToCart,
@@ -14,6 +11,8 @@ import {
   useCompleteCart,
   useShippingOptions
  } from "medusa-react";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 // const stripePromise = loadStripe(
 //   `${process.env.NEXT_PUBLIC_STRIPE_API_KEY}`
@@ -21,6 +20,7 @@ import {
 
 const CheckoutForm = () => {
   const { cart } = useCart();
+  const router = useRouter();
   if (!cart) return <div></div>;
   const addShippingMethod = useAddShippingMethodToCart(cart.id);
   const createPaymentSession = useCreatePaymentSession(cart.id);
@@ -67,8 +67,12 @@ const CheckoutForm = () => {
       }, {
         onSuccess: () => {
           createPaymentSession.mutate(undefined,{
-            onSuccess: () => {
-              completeCart.mutate();
+            onSuccess: ({ cart }) => {
+              axios.post("/api/create-checkout", {
+                cart
+              }).then(({ data: { redirect_url } }) => {
+                router.push(redirect_url);
+              })
             }
           })
         }
@@ -103,21 +107,6 @@ const CheckoutForm = () => {
           )
         }
       />
-      {/* <div>
-        <>
-          {
-            cart?.payment_session?.data.client_secret &&
-            <Elements
-              stripe={stripePromise}
-              options={{
-                clientSecret: `${cart.payment_session.data.client_secret}`
-              }}
-            >
-              <PaymentForm />
-            </Elements>
-          }
-        </>
-      </div> */}
     </div>
   )
 }
