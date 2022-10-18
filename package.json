@@ -19,7 +19,8 @@
     "react-dom": "18.2.0",
     "react-query": "^3.39.2",
     "shippo": "^1.7.1",
-    "store2": "^2.14.2"
+    "store2": "^2.14.2",
+    "stripe": "^10.14.0"
   },
   "devDependencies": {
     "@medusajs/medusa": "^1.4.1",
