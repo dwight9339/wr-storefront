@@ -52,8 +52,6 @@ const CheckoutForm = () => {
     try {
       const shippoOptionId = shipping_options.find((option) => option.name === "Shippo")?.id;
       const rate = shippingRates.find((shippingRate) => shippingRate.object_id === selectedRate);
-      console.log(`Shippo option id: ${shippoOptionId}`);
-      console.log(`Selected rate: ${JSON.stringify(rate)}`);
       
       if (!shippoOptionId) throw new Error("No shipping option named 'Shippo'");
       if (!rate) throw new Error("Could not find selected shipping rate");
