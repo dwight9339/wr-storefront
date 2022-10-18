@@ -8,15 +8,10 @@ import ActionButton from "./ActionButton";
 import {
   useAddShippingMethodToCart,
   useCreatePaymentSession,
-  useCompleteCart,
   useShippingOptions
  } from "medusa-react";
 import axios from "axios";
 import { useRouter } from "next/router";
-
-// const stripePromise = loadStripe(
-//   `${process.env.NEXT_PUBLIC_STRIPE_API_KEY}`
-// );
 
 const CheckoutForm = () => {
   const { cart } = useCart();
@@ -24,14 +19,12 @@ const CheckoutForm = () => {
   if (!cart) return <div></div>;
   const addShippingMethod = useAddShippingMethodToCart(cart.id);
   const createPaymentSession = useCreatePaymentSession(cart.id);
-  const completeCart = useCompleteCart(cart.id);
   const {
     isValidAddress,
     shippingRates,
     selectedRate,
     validateAddress,
-    getShippingRates,
-    completeCheckout
+    getShippingRates
   } = useCheckout();
   const { shipping_options } = useShippingOptions();
 
