@@ -9,11 +9,11 @@ import {
   useCompleteCart,
   useCreatePaymentSession,
   useSetPaymentSession,
-  useUpdateCart,
-  useCreateCustomer
+  useUpdateCart
 } from "medusa-react";
 import useRegion from "../hooks/useRegion";
 import store from "store2";
+import axios from "axios";
 
 interface CartState {
   cart?: Omit<Cart, "refundable_amount" | "refunded_total"> | undefined;
@@ -48,7 +48,6 @@ export const CartProvider = ({ children }: ProviderProps) => {
   const [cartId, setCartId] = useState<string>(store.get("cartId"));
   const { cart, isLoading, refetch } = useGetCart(cartId);
   const createCart = useCreateCart();
-  const createCustomer = useCreateCustomer();
   const createLineItem = useCreateLineItem(cartId);
   const deleteLineItem = useDeleteLineItem(cartId);
   const updateLineItem = useUpdateLineItem(cartId);
@@ -58,14 +57,17 @@ export const CartProvider = ({ children }: ProviderProps) => {
   const completeCart = useCompleteCart(cartId);
   const { userRegion } = useRegion();
 
-  useEffect(() => {
-    // To do: Figure out how to set anon customer better
-    if (cart && !cart.customer_id) {
-      updateCart.mutate({
-        customer_id: "cus_01GFNRP1AR95D1QSC5C18SA1NR"
-      });
+  const getAnonymousCustomer = async () => {
+    try {
+      const anonymousCustomerEndpoint = `${process.env.NEXT_PUBLIC_BACKEND_HOST}/store/customers/anonymous`;
+      const { data: { customer } } = await axios.get(anonymousCustomerEndpoint);
+
+      return {...customer};
+    } catch(err) {
+      console.error(err);
+      return null;
     }
-  }, [cart]);
+  }
 
   const addItem = (item: LineItem) => {
     if (!cartId) {
@@ -76,6 +78,14 @@ export const CartProvider = ({ children }: ProviderProps) => {
         onSuccess: async ({ cart }) => {
           setCartId(cart.id);
           store.set("cartId", cart.id);
+
+          const customer = await getAnonymousCustomer();
+          if (customer) {
+            await updateCart.mutateAsync({
+              customer_id: customer.id
+            });
+          }
+          
           refetch();
         }
       });
