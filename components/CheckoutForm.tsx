@@ -12,39 +12,40 @@ import {
  } from "medusa-react";
 import axios from "axios";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import Header from "./Header";
 
 const CheckoutForm = () => {
   const { cart, resetCart } = useCart();
   const router = useRouter();
-  if (!cart) return <div></div>;
-  const addShippingMethod = useAddShippingMethodToCart(cart.id);
-  const createPaymentSession = useCreatePaymentSession(cart.id);
+  const addShippingMethod = useAddShippingMethodToCart(`${cart?.id}`);
+  const createPaymentSession = useCreatePaymentSession(`${cart?.id}`);
   const {
     isValidAddress,
     shippingRates,
     selectedRate,
-    validateAddress,
-    getShippingRates
+    validateAddress
   } = useCheckout();
   const { shipping_options } = useShippingOptions();
 
   const [stage, setStage] = useState<number>(1);
-  const checkoutComplete = router.query.checkout_complete;
+  const [checkoutComplete, setCheckoutComplete] = useState<boolean>(false);
 
   useEffect(() => {
-    if (checkoutComplete) {
+    const { checkout_complete } = router.query;
+    if (checkout_complete) {
+      setCheckoutComplete(true);
       resetCart();
     }
-  })
+  }, [router.query])
 
-  useEffect(() => {
-    if (isValidAddress) {
-      getShippingRates();
+  const onAddressSubmit = async (address: any) => {
+    try {
+      await validateAddress(address);
       setStage(2);
+    } catch(err) {
+      console.error(err);
     }
-  }, [isValidAddress]);
+  }
 
   const NoCart = () => (
     <div className={styles.messageComponent}>
@@ -106,30 +107,60 @@ const CheckoutForm = () => {
   }
 
   const pageContent = useMemo(() => {
-    if (!(cart && cart.items.length > 0)) {
-      return <NoCart />;
-    }
-
     if (checkoutComplete) {
       return <ThankYou />;
+    }
+    
+    if (!(cart && cart.items.length > 0)) {
+      return <NoCart />;
     }
 
     return (
       <>
         <div className={
-          styles.addressForm
+          stage === 1
+          ? styles.sectionCardOpen
+          : styles.sectionCardClosed
         }>
-          <AddressForm
-              onSubmit={validateAddress}
+          <div 
+            className={styles.cardTitle}
+            onClick={() => {
+              setStage(1);
+            }}
+          >
+            Shipping Address
+          </div>
+          <div className={styles.cardContents}>
+            <AddressForm
+              onSubmit={onAddressSubmit}
             />
+          </div>
         </div>
-        <div className={styles.shippingSelector}>
-          {
-            shippingRates.length > 0 &&
-            <ShippingSelector
-              rates={shippingRates}
-            />
+        <div 
+          className={
+            stage === 2
+            ? styles.sectionCardOpen
+            : styles.sectionCardClosed
           }
+        >
+          <div 
+            className={styles.cardTitle}
+            onClick={() => {
+              if (isValidAddress) {
+                setStage(2);
+              }
+            }}
+          >
+            Shipping Method
+          </div>
+          <div className={styles.cardContents}>
+            {
+              shippingRates.length > 0 &&
+              <ShippingSelector
+                rates={shippingRates}
+              />
+            }
+          </div>
         </div>
         <div className={styles.continueButton}>
           <ActionButton
@@ -145,7 +176,14 @@ const CheckoutForm = () => {
         </div>
       </>
     )
-  }, [isValidAddress, selectedRate, stage]);
+  }, [
+    isValidAddress,
+    selectedRate,
+    shippingRates,
+    stage,
+    checkoutComplete,
+    cart
+  ]);
 
   return (
     <div className={styles.container}>

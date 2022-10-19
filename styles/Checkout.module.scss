@@ -10,6 +10,43 @@
   gap: 20px;
 }
 
+.sectionCard {
+  display: grid;
+  grid-template-rows: 1fr 7fr;
+
+  .cardTitle {
+    display: flex;
+    align-items: center;
+    background-color: theme.$tannish;
+    color: theme.$blue-gray;
+    font-size: 1.5em;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .cardContents {
+    padding: 20px 15px;
+  }
+}
+
+.sectionCardOpen {
+  @extend .sectionCard;
+
+  .cardContents {
+    display: block;
+  }
+}
+
+.sectionCardClosed {
+  @extend .sectionCard;
+
+  grid-template-rows: 1fr;
+
+  .cardContents {
+    display: none;
+  }
+}
+
 .messageComponent {
   display: flex;
   flex-direction: column;
