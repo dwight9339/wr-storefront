@@ -1,4 +1,4 @@
-import { useState, createContext, useContext } from "react";
+import { useState, createContext, useContext, useEffect } from "react";
 import { useCart } from "./CartProvider";
 import axios from "axios";
 
@@ -38,6 +38,12 @@ export const CheckoutProvider = ({ children }: ProviderProps) => {
   const [shippingRates, setShippingRates] = useState<any[]>([]);
   const [selectedRate, setSelectedRate] = useState<string>();
 
+  useEffect(() => {
+    if (isValidAddress) {
+      getShippingRates();
+    }
+  }, [addressId]);
+
   const validateAddress = async (address: any) => {
     const { data: { addressId, isValid } } = await axios.post("/api/create-address", {
       address: {
@@ -49,7 +55,6 @@ export const CheckoutProvider = ({ children }: ProviderProps) => {
     setAddressId(addressId);
     setIsValidAddress(isValid);
     setShippingAddress(address);
-    getShippingRates();
   }
 
   const getShippingRates = async () => {
