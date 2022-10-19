@@ -1,0 +1,20 @@
+@use "theme";
+
+.form {
+  width: auto;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: theme.$cream;
+  gap: 5px;
+}
+
+.label {
+  display: block;
+}
+
+.submitButton {
+  padding-top: 10px;
+  align-self: flex-end;
+}
