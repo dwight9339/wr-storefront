@@ -47,19 +47,27 @@ const CheckoutForm = () => {
   }, [isValidAddress]);
 
   const NoCart = () => (
-    <div className={styles.noCart}>
+    <div className={styles.messageComponent}>
       <h1>
         It looks like you don't have anything in your cart. 
       </h1>
-      <Link href="/">Return to shop</Link>
+      <ActionButton
+        text="Return to store"
+        action={() => router.push("/")}
+        disabled={false}
+      />
     </div>
   );
 
-  const ThankYouCard = () => (
-    <div className={styles.thankYou}>
+  const ThankYou = () => (
+    <div className={styles.messageComponent}>
       <h1>Thank you for your purchase!</h1>
       <h3>You should recieve an email confirmation shortly.</h3>
-      <Link href="/">Return to shop</Link>
+      <ActionButton
+        text="Return to store"
+        action={() => router.push("/")}
+        disabled={false}
+      />
     </div>
   )
 
@@ -103,7 +111,7 @@ const CheckoutForm = () => {
     }
 
     if (checkoutComplete) {
-      return <ThankYouCard />;
+      return <ThankYou />;
     }
 
     return (
