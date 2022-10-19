@@ -8,6 +8,7 @@ export default async function createCheckout(req: NextApiRequest, res: NextApiRe
 
   try {
     const cart: Cart = req.body.cart;
+    const shippingMethod = cart.shipping_methods[cart.shipping_methods.length - 1];
     const { origin } = req.headers;
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -34,10 +35,10 @@ export default async function createCheckout(req: NextApiRequest, res: NextApiRe
             currency: cart.region.currency_code,
             product_data: {
               name: "Shipping",
-              description: `${cart.shipping_methods[0].data.provider}`,
-              images: [cart.shipping_methods[0].data.provider_image_200]
+              description: `${shippingMethod.data.provider}`,
+              images: [shippingMethod.data.provider_image_200]
             },
-            unit_amount: cart.shipping_methods[0].price,
+            unit_amount: shippingMethod.price,
           },
           quantity: 1
         }
