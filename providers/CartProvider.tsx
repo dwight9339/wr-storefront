@@ -144,6 +144,7 @@ export const CartProvider = ({ children }: ProviderProps) => {
 
   const resetCart = () => {
     store.set("cartId", null);
+    setCartId("");
   }
 
   return (
