@@ -18,14 +18,19 @@ const ShippingSelectorOption = ({ rate }: ShippingSelectorOptionProps) => {
       className={`${styles.optionContainer} ${selectedRate === rate.object_id && styles.selected}`}
       onClick={() => setShipping(rate.object_id)}
     >
-      <Image
-        src={rate.provider_image_200}
-        width={75}
-        height={75}
-      />
+      <div className={styles.providerImage}>
+        <Image
+          src={rate.provider_image_200}
+          width={75}
+          height={75}
+        />
+      </div>
       <div className={styles.provider}>{rate.provider}</div>
       <div className={styles.serviceLevel}>{rate.servicelevel.name}</div>
-      <div className={styles.deliveryTime}>Estimated delivery - {rate.estimated_days} days</div>
+      <div className={styles.deliveryTimeContainer}>
+        <div className={styles.deliveryTimeLabel}>Est. delivery time:</div> 
+        <div className={styles.deliveryTime}>{rate.estimated_days} days</div>
+      </div>
       <div className={styles.price}>${rate.amount_local}</div>
     </div>
   )

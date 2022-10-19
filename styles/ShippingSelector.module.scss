@@ -7,13 +7,55 @@
 }
 
 .optionContainer {
-  display: flex;
-  align-items: center;
-  gap: 25px;
+  background-color: theme.$cream;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   max-width: 500px;
   padding: 20px;
+  color: theme.$blue-gray;
+  cursor: pointer;
+}
+
+.columnDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.providerImage {
+  @extend .columnDiv;
+}
+
+.provider {
+  @extend .columnDiv;
+  font-size: 1.3em;
+}
+
+.serviceLevel {
+  @extend .columnDiv;
+  font-size: 1.1em;
+}
+
+.deliveryTimeContainer {
+  @extend .columnDiv;
+  gap: 5px;
+
+  .deliveryTimeLabel {
+    font-size: .9em;
+  }
+
+  .deliveryTime {
+    font-size: 1em;
+  }
+}
+
+.price {
+  @extend .columnDiv;
+
 }
 
 .selected {
-  border: 3px solid black;
+  background-color: theme.$tannish;
 }
