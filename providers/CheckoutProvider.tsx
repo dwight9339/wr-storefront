@@ -49,6 +49,7 @@ export const CheckoutProvider = ({ children }: ProviderProps) => {
     setAddressId(addressId);
     setIsValidAddress(isValid);
     setShippingAddress(address);
+    getShippingRates();
   }
 
   const getShippingRates = async () => {
