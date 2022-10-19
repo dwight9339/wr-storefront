@@ -13,8 +13,13 @@
 .sectionCard {
   display: grid;
   grid-template-rows: 1fr 7fr;
+  width: 90%;
+  max-width: 900px;
+  border: 3px theme.$tannish solid;
+  border-radius: 9px;
 
   .cardTitle {
+    padding: 20px 0px 20px 30px;
     display: flex;
     align-items: center;
     background-color: theme.$tannish;
