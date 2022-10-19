@@ -26,7 +26,7 @@ interface CartContext extends CartState {
   updateQuantity: (item: LineItem, quantity: number) => void;
   startCheckout: () => void;
   setShippingAddress: (address: any) => void;
-  finishCheckout: () => void;
+  resetCart: () => void;
 }
 
 const CartContext = createContext<CartContext | null>(null);
@@ -142,21 +142,21 @@ export const CartProvider = ({ children }: ProviderProps) => {
     })
   }
 
-  const finishCheckout = () => {
-    completeCart.mutate();
+  const resetCart = () => {
+    store.set("cartId", null);
   }
 
   return (
     <CartContext.Provider
       value={{
-        cart,
+        cart: cartId ? cart : undefined,
         loading: isLoading,
         addItem,
         removeItem,
         updateQuantity,
         startCheckout,
         setShippingAddress,
-        finishCheckout
+        resetCart
       }}
     >
       {children}

@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import styles from "../styles/Form.module.scss";
+import styles from "../styles/AddressForm.module.scss";
 
 interface FieldProps {
   label: string;
@@ -25,20 +25,22 @@ const Field = ({
   }
 
   return (
-    <label>
-      {label}
+    <div className={styles.fieldContainer}>
+      <label className={styles.label}>{label}</label>
       <input
+        className={styles.input}
         type={type}
         value={value}
         onChange={update}
         {...props}
       />
-    </label>
+    </div>
   )
 }
 
 const AddressForm = ({ onSubmit }: AddressFormProps) => {
-  const [name, setName] = useState<string>();
+  const [firstName, setFirstName] = useState<string>();
+  const [lastName, setLastName] = useState<string>();
   const [email, setEmail] = useState<string>();
   const [street1, setStreet1] = useState<string>();
   const [street2, setStreet2] = useState<string>();
@@ -50,7 +52,8 @@ const AddressForm = ({ onSubmit }: AddressFormProps) => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit({
-      name,
+      firstName,
+      lastName,
       email,
       street1,
       street2,
@@ -73,10 +76,19 @@ const AddressForm = ({ onSubmit }: AddressFormProps) => {
         }}
       />
       <Field 
-        label="Name"
+        label="First Name"
         type="text"
-        value={name}
-        updater={setName}
+        value={firstName}
+        updater={setFirstName}
+        props={{
+          required: true
+        }}
+      />
+      <Field 
+        label="Last Name"
+        type="text"
+        value={lastName}
+        updater={setLastName}
         props={{
           required: true
         }}
@@ -135,7 +147,7 @@ const AddressForm = ({ onSubmit }: AddressFormProps) => {
       <div className={styles.submitButton}>
         <input
           type="submit"
-          value="Continue"
+          value="Submit"
         />
       </div>
     </form>

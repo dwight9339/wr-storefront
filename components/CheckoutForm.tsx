@@ -2,7 +2,7 @@ import AddressForm from "./AddressForm";
 import styles from "../styles/Checkout.module.scss";
 import { useCheckout } from "../providers/CheckoutProvider";
 import { useCart } from "../providers/CartProvider";
-import { useEffect } from "react";
+import { useEffect, useState, useMemo } from "react";
 import ShippingSelector from "./ShippingSelector";
 import ActionButton from "./ActionButton";
 import {
@@ -12,9 +12,11 @@ import {
  } from "medusa-react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import Link from "next/link";
+import Header from "./Header";
 
 const CheckoutForm = () => {
-  const { cart } = useCart();
+  const { cart, resetCart } = useCart();
   const router = useRouter();
   if (!cart) return <div></div>;
   const addShippingMethod = useAddShippingMethodToCart(cart.id);
@@ -28,18 +30,40 @@ const CheckoutForm = () => {
   } = useCheckout();
   const { shipping_options } = useShippingOptions();
 
+  const [stage, setStage] = useState<number>(1);
+  const checkoutComplete = router.query.checkout_complete;
+
   useEffect(() => {
-    console.log(`Selected rate: ${selectedRate}`);
-  }, [selectedRate])
+    if (checkoutComplete) {
+      resetCart();
+    }
+  })
 
   useEffect(() => {
     if (isValidAddress) {
       getShippingRates();
+      setStage(2);
     }
   }, [isValidAddress]);
 
+  const NoCart = () => (
+    <div className={styles.noCart}>
+      <h1>
+        It looks like you don't have anything in your cart. 
+      </h1>
+      <Link href="/">Return to shop</Link>
+    </div>
+  );
+
+  const ThankYouCard = () => (
+    <div className={styles.thankYou}>
+      <h1>Thank you for your purchase!</h1>
+      <h3>You should recieve an email confirmation shortly.</h3>
+      <Link href="/">Return to shop</Link>
+    </div>
+  )
+
   const doSubmit = () => {
-    console.log("In doSubmit");
     if (!(isValidAddress && selectedRate && shipping_options)) return;
 
     try {
@@ -67,37 +91,58 @@ const CheckoutForm = () => {
             }
           })
         }
-      })
+      });
     } catch(err) {
       console.error(err);
     }
   }
 
-  return (
-    <div>
-      <div>
-        <AddressForm
-          onSubmit={validateAddress}
-        />
-      </div>
-      <div>
-        {
-          shippingRates.length > 0 &&
-          <ShippingSelector
-            rates={shippingRates}
+  const pageContent = useMemo(() => {
+    if (!(cart && cart.items.length > 0)) {
+      return <NoCart />;
+    }
+
+    if (checkoutComplete) {
+      return <ThankYouCard />;
+    }
+
+    return (
+      <>
+        <div className={
+          styles.addressForm
+        }>
+          <AddressForm
+              onSubmit={validateAddress}
+            />
+        </div>
+        <div className={styles.shippingSelector}>
+          {
+            shippingRates.length > 0 &&
+            <ShippingSelector
+              rates={shippingRates}
+            />
+          }
+        </div>
+        <div className={styles.continueButton}>
+          <ActionButton
+            text="Continue"
+            action={doSubmit}
+            disabled={
+              !(
+                isValidAddress
+                && selectedRate
+              )
+            }
           />
-        }
-      </div>
-      <ActionButton
-        text="Continue"
-        action={doSubmit}
-        disabled={
-          !(
-            isValidAddress
-            && selectedRate
-          )
-        }
-      />
+        </div>
+      </>
+    )
+  }, [isValidAddress, selectedRate, stage]);
+
+  return (
+    <div className={styles.container}>
+      <Header />
+      {pageContent}
     </div>
   )
 }

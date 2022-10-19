@@ -2,8 +2,11 @@
 
 .container {
   height: 100vh;
+  width: 100vw;
   background-color: theme.$blue-gray;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 20px;
 }
+
