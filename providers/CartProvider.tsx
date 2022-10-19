@@ -130,8 +130,8 @@ export const CartProvider = ({ children }: ProviderProps) => {
   const setShippingAddress = async (address: any) => {
     await updateCart.mutateAsync({
       shipping_address: {
-        first_name: address.name.split(" ")[0],
-        last_name: address.name.split(" ")[1],
+        first_name: address.firstName,
+        last_name: address.lastName,
         address_1: address.street1,
         address_2: address.street2,
         city: address.city,
