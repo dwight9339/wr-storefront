@@ -11,7 +11,7 @@ const CartPage: NextPage = () => {
   const { cart, loading } = useCart();
 
   const initiateCheckout = async () => {
-    // Todo
+    router.push("/checkout");
   }
 
   return (
