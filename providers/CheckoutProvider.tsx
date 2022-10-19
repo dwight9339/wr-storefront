@@ -9,7 +9,7 @@ interface CheckoutState {
 }
 
 interface CheckoutContext extends CheckoutState {
-  validateAddress: (address: object) => Promise<void>;
+  validateAddress: (address: any) => Promise<void>;
   getShippingRates: () => Promise<void>;
   setShipping: (rateId: string) => void;
   completeCheckout: () => Promise<void>;
@@ -38,8 +38,13 @@ export const CheckoutProvider = ({ children }: ProviderProps) => {
   const [shippingRates, setShippingRates] = useState<any[]>([]);
   const [selectedRate, setSelectedRate] = useState<string>();
 
-  const validateAddress = async (address: object) => {
-    const { data: { addressId, isValid } } = await axios.post("/api/create-address", {address});
+  const validateAddress = async (address: any) => {
+    const { data: { addressId, isValid } } = await axios.post("/api/create-address", {
+      address: {
+        ...address,
+        name: `${address.firstName} ${address.lastName}`
+      }
+    });
     if (!isValid) throw new Error("Invalid address");
     setAddressId(addressId);
     setIsValidAddress(isValid);
