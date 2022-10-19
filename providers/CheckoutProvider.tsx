@@ -10,7 +10,6 @@ interface CheckoutState {
 
 interface CheckoutContext extends CheckoutState {
   validateAddress: (address: any) => Promise<void>;
-  getShippingRates: () => Promise<void>;
   setShipping: (rateId: string) => void;
   completeCheckout: () => Promise<void>;
 }
@@ -90,7 +89,6 @@ export const CheckoutProvider = ({ children }: ProviderProps) => {
       shippingRates,
       selectedRate,
       validateAddress,
-      getShippingRates,
       setShipping,
       completeCheckout
     }}>
