@@ -11,7 +11,7 @@ import {
   useSetPaymentSession,
   useUpdateCart
 } from "medusa-react";
-import useRegion from "../hooks/useRegion";
+import { useRegion } from "./RegionProvider";
 import store from "store2";
 import axios from "axios";
 
@@ -70,6 +70,8 @@ export const CartProvider = ({ children }: ProviderProps) => {
   }
 
   const addItem = (item: LineItem) => {
+    if (!userRegion) return;
+
     if (!cartId) {
       createCart.mutate({
         region_id: userRegion.id,

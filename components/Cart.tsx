@@ -2,7 +2,7 @@ import styles from "../styles/Cart.module.scss";
 import Image from "next/image";
 import { LineItem } from "@medusajs/medusa";
 import { formatAmount } from "medusa-react";
-import useRegion from "../hooks/useRegion";
+import { useRegion } from "../providers/RegionProvider";
 import { useMemo } from "react";
 import QuantitySelector from "./QuantitySelector";
 import { useCart } from "../providers/CartProvider";
@@ -14,10 +14,10 @@ type CartRowProps = {
 const CartRow = ({ item }: CartRowProps) => {
   const { removeItem, updateQuantity } = useCart();
   const { userRegion } = useRegion();
-  const price = formatAmount({
+  const price = userRegion ? formatAmount({
     amount: item.total || 0,
     region: userRegion
-  });
+  }) : "Unable to get price";
 
   const incrementQuantity = () => {
     updateQuantity(item, item.quantity + 1);
@@ -67,10 +67,10 @@ const CartRow = ({ item }: CartRowProps) => {
 const Cart = () => {
   const { cart, loading } = useCart();
   const { userRegion } = useRegion();
-  const total = formatAmount({
+  const total = userRegion ? formatAmount({
       amount: cart?.total || 0,
       region: userRegion
-  });
+  }) : "Unable to get amount";
 
   const content = useMemo(() => {
     if (loading) return;
