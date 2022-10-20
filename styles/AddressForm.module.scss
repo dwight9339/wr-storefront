@@ -13,15 +13,20 @@
     width: 100%
   }
 
+  .selectField {
+    @extend .fieldContainer;
+  }
+
   label {
     font-weight: 600;
     padding-bottom: 3px;
   }
 
-  input {
+  input, select {
     width: 100%;
     padding: 8px 12px;
     border-radius: 3px;
+    background-color: white;
   }
 
   input[type=submit] {

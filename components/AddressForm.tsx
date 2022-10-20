@@ -1,4 +1,5 @@
 import { FormEvent, useState } from "react";
+import { useRegion } from "../providers/RegionProvider";
 import styles from "../styles/AddressForm.module.scss";
 
 interface FieldProps {
@@ -26,9 +27,8 @@ const Field = ({
 
   return (
     <div className={styles.fieldContainer}>
-      <label className={styles.label}>{label}</label>
+      <label>{label}</label>
       <input
-        className={styles.input}
         type={type}
         value={value}
         onChange={update}
@@ -48,6 +48,8 @@ const AddressForm = ({ onSubmit }: AddressFormProps) => {
   const [state, setState] = useState<string>();
   const [country, setCountry] = useState<string>();
   const [zip, setZip] = useState<string>();
+
+  const { userRegion } = useRegion();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -121,7 +123,7 @@ const AddressForm = ({ onSubmit }: AddressFormProps) => {
       />
       <div className={styles.fieldSet}>
         <Field 
-          label="State"
+          label="State/Province"
           type="text"
           value={state}
           updater={setState}
@@ -129,15 +131,23 @@ const AddressForm = ({ onSubmit }: AddressFormProps) => {
             required: true
           }}
         />
-        <Field 
-          label="Country"
-          type="text"
-          value={country}
-          updater={setCountry}
-          props={{
-            required: true
-          }}
-        />
+        <div className={styles.selectField}> 
+          <label>Country</label>
+          <select
+
+          >
+            <>
+              {
+                userRegion && 
+                userRegion.countries.map(({ iso_2, display_name }, i) => {
+                  return (
+                    <option key={i} value={iso_2}>{display_name}</option>
+                  )
+                })
+              }
+            </>
+          </select>
+        </div>
       </div>
       <Field 
         label="ZIP Code"
