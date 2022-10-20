@@ -1,13 +1,40 @@
 @use "theme";
 
 .form {
-  width: auto;
+  width: 80%;
   max-width: 900px;
   display: flex;
   flex-direction: column;
   align-items: center;
   color: theme.$cream;
-  gap: 5px;
+  gap: 8px;
+
+  .fieldContainer {
+    width: 100%
+  }
+
+  label {
+    font-weight: 600;
+    padding-bottom: 3px;
+  }
+
+  input {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 3px;
+  }
+
+  input[type=submit] {
+    background-color: theme.$cream;
+    color: theme.$blue-gray;
+    font-size: 1em;
+  }
+}
+
+.fieldSet {
+  width: 100%;
+  display: flex;
+  gap: 10px;
 }
 
 .label {

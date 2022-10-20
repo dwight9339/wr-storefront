@@ -75,24 +75,26 @@ const AddressForm = ({ onSubmit }: AddressFormProps) => {
           required: true
         }}
       />
-      <Field 
-        label="First Name"
-        type="text"
-        value={firstName}
-        updater={setFirstName}
-        props={{
-          required: true
-        }}
-      />
-      <Field 
-        label="Last Name"
-        type="text"
-        value={lastName}
-        updater={setLastName}
-        props={{
-          required: true
-        }}
-      />
+      <div className={styles.fieldSet}>
+        <Field 
+          label="First Name"
+          type="text"
+          value={firstName}
+          updater={setFirstName}
+          props={{
+            required: true
+          }}
+        />
+        <Field 
+          label="Last Name"
+          type="text"
+          value={lastName}
+          updater={setLastName}
+          props={{
+            required: true
+          }}
+        />
+      </div>
       <Field 
         label="Street Address"
         type="text"
@@ -117,24 +119,26 @@ const AddressForm = ({ onSubmit }: AddressFormProps) => {
           required: true
         }}
       />
-      <Field 
-        label="State"
-        type="text"
-        value={state}
-        updater={setState}
-        props={{
-          required: true
-        }}
-      />
-      <Field 
-        label="Country"
-        type="text"
-        value={country}
-        updater={setCountry}
-        props={{
-          required: true
-        }}
-      />
+      <div className={styles.fieldSet}>
+        <Field 
+          label="State"
+          type="text"
+          value={state}
+          updater={setState}
+          props={{
+            required: true
+          }}
+        />
+        <Field 
+          label="Country"
+          type="text"
+          value={country}
+          updater={setCountry}
+          props={{
+            required: true
+          }}
+        />
+      </div>
       <Field 
         label="ZIP Code"
         type="text"

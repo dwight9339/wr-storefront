@@ -34,11 +34,23 @@
   }
 }
 
+@keyframes slideOpen {
+  from {
+    height: 0%;
+  }
+
+  to {
+    height: 100%;
+  }
+}
+
 .sectionCardOpen {
   @extend .sectionCard;
 
   .cardContents {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }
 

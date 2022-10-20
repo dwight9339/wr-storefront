@@ -3,6 +3,7 @@
 .container {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 20px;
 }
 
@@ -10,7 +11,7 @@
   background-color: theme.$cream;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  max-width: 500px;
+  width: 95%;
   padding: 20px;
   color: theme.$blue-gray;
   cursor: pointer;
@@ -44,10 +45,11 @@
 
   .deliveryTimeLabel {
     font-size: .9em;
+    font-weight: 700;
   }
 
   .deliveryTime {
-    font-size: 1em;
+    font-size: 1.2em;
   }
 }
 
