@@ -134,16 +134,18 @@ const AddressForm = ({ onSubmit }: AddressFormProps) => {
         <div className={styles.selectField}> 
           <label>Country</label>
           <select
-
+            onChange={(e) => setCountry(e.currentTarget.value)}
           >
             <>
               {
                 userRegion && 
-                userRegion.countries.map(({ iso_2, display_name }, i) => {
-                  return (
-                    <option key={i} value={iso_2}>{display_name}</option>
-                  )
-                })
+                userRegion.countries.slice()
+                  .sort((a, b) => a.display_name > b.display_name ? 1 : -1)
+                  .map(({ iso_2, display_name }, i) => {
+                    return (
+                      <option key={i} value={iso_2}>{display_name}</option>
+                    )
+                  })
               }
             </>
           </select>
