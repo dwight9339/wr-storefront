@@ -2,7 +2,7 @@ import AddressForm from "./AddressForm";
 import styles from "../styles/Checkout.module.scss";
 import { useCheckout } from "../providers/CheckoutProvider";
 import { useCart } from "../providers/CartProvider";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import ShippingSelector from "./ShippingSelector";
 import ActionButton from "./ActionButton";
 import {
@@ -30,7 +30,7 @@ const CheckoutForm = () => {
   const [stage, setStage] = useState<number>(1);
   const [checkoutComplete, setCheckoutComplete] = useState<boolean>(false);
 
-  const completeCart = async (cartId: string) => {
+  const completeCart = useCallback(async (cartId: string) => {
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_HOST}/store/carts/${cartId}/complete`);
       setCheckoutComplete(true);
@@ -38,28 +38,28 @@ const CheckoutForm = () => {
     } catch(err) {
       console.error(err);
     }
-  }
+  }, [resetCart]);
 
   useEffect(() => {
     const { checkout_complete, cart } = router.query;
     if (checkout_complete) {
       completeCart(`${cart}`);
     }
-  }, [router.query])
+  }, [router.query, completeCart])
 
-  const onAddressSubmit = async (address: any) => {
+  const onAddressSubmit = useCallback(async (address: any) => {
     try {
       await validateAddress(address);
       setStage(2);
     } catch(err) {
       console.error(err);
     }
-  }
+  }, [validateAddress]);
 
-  const NoCart = () => (
+  const NoCart = useCallback(() => (
     <div className={styles.messageComponent}>
       <h1>
-        It looks like you don't have anything in your cart. 
+        It looks like you don&apos;t have anything in your cart. 
       </h1>
       <ActionButton
         text="Return to store"
@@ -67,9 +67,9 @@ const CheckoutForm = () => {
         disabled={false}
       />
     </div>
-  );
+  ), [router]);
 
-  const ThankYou = () => (
+  const ThankYou = useCallback(() => (
     <div className={styles.messageComponent}>
       <h1>Thank you for your purchase!</h1>
       <h3>You should recieve an email confirmation shortly.</h3>
@@ -79,9 +79,9 @@ const CheckoutForm = () => {
         disabled={false}
       />
     </div>
-  )
+  ), [router]);
 
-  const doSubmit = () => {
+  const doSubmit = useCallback(() => {
     if (!(isValidAddress && selectedRate && shipping_options)) return;
 
     try {
@@ -110,7 +110,15 @@ const CheckoutForm = () => {
     } catch(err) {
       console.error(err);
     }
-  }
+  }, [
+    addShippingMethod,
+    createPaymentSession,
+    isValidAddress,
+    router,
+    selectedRate,
+    shippingRates,
+    shipping_options
+  ]);
 
   const pageContent = useMemo(() => {
     if (checkoutComplete) {
@@ -188,7 +196,11 @@ const CheckoutForm = () => {
     shippingRates,
     stage,
     checkoutComplete,
-    cart
+    cart,
+    NoCart,
+    ThankYou,
+    doSubmit,
+    onAddressSubmit
   ]);
 
   return (

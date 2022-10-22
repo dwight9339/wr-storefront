@@ -96,7 +96,7 @@ const Cart = () => {
         Cart is empty
       </div>
     )
-  }, [cart])
+  }, [cart, loading, total])
 
   return (
     <div className={styles.container}>
