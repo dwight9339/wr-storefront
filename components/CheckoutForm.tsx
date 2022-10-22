@@ -30,11 +30,20 @@ const CheckoutForm = () => {
   const [stage, setStage] = useState<number>(1);
   const [checkoutComplete, setCheckoutComplete] = useState<boolean>(false);
 
-  useEffect(() => {
-    const { checkout_complete } = router.query;
-    if (checkout_complete) {
+  const completeCart = async (cartId: string) => {
+    try {
+      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_HOST}/store/carts/${cartId}/complete`);
       setCheckoutComplete(true);
       resetCart();
+    } catch(err) {
+      console.error(err);
+    }
+  }
+
+  useEffect(() => {
+    const { checkout_complete, cart } = router.query;
+    if (checkout_complete) {
+      completeCart(`${cart}`);
     }
   }, [router.query])
 
@@ -92,11 +101,8 @@ const CheckoutForm = () => {
         onSuccess: () => {
           createPaymentSession.mutate(undefined,{
             onSuccess: ({ cart }) => {
-              axios.post("/api/create-checkout", {
-                cart
-              }).then(({ data: { redirect_url } }) => {
-                router.push(redirect_url);
-              })
+              if (!cart.payment_session?.data?.url) throw new Error("Error creating payment session");
+              router.push(`${cart.payment_session?.data.url}`);
             }
           })
         }

@@ -24,7 +24,7 @@ interface CartContext extends CartState {
   addItem: (item: LineItem) => void;
   removeItem: (item: LineItem) => void;
   updateQuantity: (item: LineItem, quantity: number) => void;
-  getPaymentSessions: () => void;
+  startCheckout: () => void;
   setShippingAddress: (address: any) => void;
   resetCart: () => void;
 }
@@ -119,8 +119,17 @@ export const CartProvider = ({ children }: ProviderProps) => {
     });
   }
 
-  const getPaymentSessions = () => {
-    createPaymentSession.mutate();
+  const startCheckout = async () => {
+    const { cart } = await createPaymentSession.mutateAsync();
+
+    if (cart.payment_session?.provider_id !== "Stripe") {
+      const { cart } = await setPaymentSession.mutateAsync({
+        provider_id: "Stripe"
+      });
+      return cart.payment_session;
+    }
+
+    return cart.payment_session;
   }
 
   const setShippingAddress = async (address: any) => {
@@ -151,7 +160,7 @@ export const CartProvider = ({ children }: ProviderProps) => {
         addItem,
         removeItem,
         updateQuantity,
-        getPaymentSessions,
+        startCheckout,
         setShippingAddress,
         resetCart
       }}
