@@ -1,4 +1,5 @@
 @use "theme";
+@use "breakpoints";
 
 .form {
   width: 80%;
@@ -49,4 +50,10 @@
 .submitButton {
   padding-top: 10px;
   align-self: flex-end;
+}
+
+@media screen and (max-width: breakpoints.$mobile) {
+  input {
+    padding: 2px;
+  }
 }
