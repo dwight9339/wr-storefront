@@ -35,7 +35,10 @@ const ProductPage = () => {
   }, [selectedVariant])
 
   const addToCart = async () => {
-    if (!selectedVariant) return;
+    if (!selectedVariant) {
+      console.log("No selected variant");
+      return;
+    };
 
     try {
       addItem({
