@@ -59,10 +59,6 @@
 }
 
 @media screen and (max-width: breakpoints.$mobile) {
-  .container {
-    height: 100%;
-  }
-
   .tileContainer {
     background-color: theme.$blue-gray;
     display: flex;
@@ -72,6 +68,7 @@
   }
 
   .pageTurners {
+    height: -webkit-fill-avaialable;
     justify-content: center;
   }
 }
