@@ -28,6 +28,7 @@
     padding: 8px 12px;
     border-radius: 3px;
     background-color: white;
+    color: black;
   }
 
   input[type=submit] {
@@ -52,11 +53,11 @@
   align-self: flex-end;
 }
 
-@media screen and (max-width: breakpoints.$mobile) {
-  .form {
-    input, select {
-      padding: 0px;
-      color: black;
-    }
-  }
-}
+// @media screen and (max-width: breakpoints.$mobile) {
+//   .form {
+//     input, select {
+//       // padding: 0px;
+//       color: black;
+//     }
+//   }
+// }
