@@ -59,6 +59,10 @@
 }
 
 @media screen and (max-width: breakpoints.$mobile) {
+  .container {
+    height: 100%;
+  }
+
   .tileContainer {
     background-color: theme.$blue-gray;
     display: flex;
