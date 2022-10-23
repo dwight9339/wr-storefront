@@ -5,9 +5,10 @@ import { LineItem, ProductVariant as Variant } from "@medusajs/medusa";
 import VariantPicker from "../components/VariantPicker";
 import Header from "../components/Header";
 import ActionButton from "../components/ActionButton";
-import useCart from "../hooks/useCart";
 import QuantitySelector from "../components/QuantitySelector";
 import { useProduct } from "../providers/ProductProvider";
+import { useCart } from "../providers/CartProvider";
+import CartSlider from "./CartSlider";
 
 const ProductPage = () => {
   const { addItem } = useCart();
@@ -18,6 +19,9 @@ const ProductPage = () => {
     incrementQuantity,
     decrementQuantity
   } = useProduct();
+  const [showCartSlider, setShowCartSlider] = useState<boolean>(false);
+
+  const toggleShowCartSlider = () => setShowCartSlider((current) => !current);
 
   const currentPrice = useMemo(() => {
     const amt = selectedVariant
@@ -31,13 +35,17 @@ const ProductPage = () => {
   }, [selectedVariant])
 
   const addToCart = async () => {
-    if (!selectedVariant) return;
+    if (!selectedVariant) {
+      console.log("No selected variant");
+      return;
+    };
 
     try {
       addItem({
         variant_id: selectedVariant.id,
-        quantity: 1
+        quantity: quantity
       } as LineItem);
+      toggleShowCartSlider();
     } catch(err) {
       console.error(err);
     }
@@ -46,34 +54,39 @@ const ProductPage = () => {
   if (!product) return <div></div>;
 
   return (
-    <div className={styles.pageContainer}>
-      <Header />
-      <div className={styles.contentContainer}>
-        <div className={styles.infoContainer}>
-          <h1>{product.title}</h1>
-          <p>{product.description}</p>
-          <h3>${currentPrice}</h3>
-          <VariantPicker />
-          <QuantitySelector 
-            quantity={quantity}
-            incrementQuantity={incrementQuantity}
-            decrementQuantity={decrementQuantity}
-          />
-          <ActionButton 
-            text="Add to cart"
-            action={addToCart}
-            disabled={false}
-          />
-        </div>
-        <div className={styles.photoContainer}>
-          <Image
-            src={product.thumbnail || ""}
-            width={700}
-            height={700}
-          />
+    <>
+      <div className={styles.pageContainer}>
+        <Header />
+        <div className={styles.contentContainer}>
+          <div className={styles.infoContainer}>
+            <h1>{product.title}</h1>
+            <p>{product.description}</p>
+            <h3>${currentPrice}</h3>
+            <VariantPicker />
+            <QuantitySelector 
+              quantity={quantity}
+              incrementQuantity={incrementQuantity}
+              decrementQuantity={decrementQuantity}
+            />
+            <ActionButton 
+              text="Add to cart"
+              action={addToCart}
+              disabled={showCartSlider}
+            />
+          </div>
+          <div className={styles.photoContainer}>
+            <Image
+              src={product.thumbnail || ""}
+              width={700}
+              height={700}
+            />
+          </div>
         </div>
       </div>
-    </div>
+      {showCartSlider && <CartSlider
+        onClose={toggleShowCartSlider}
+      />}
+    </>
   )
 };
 

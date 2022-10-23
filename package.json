@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@stripe/react-stripe-js": "^1.12.0",
+    "@stripe/stripe-js": "^1.38.1",
     "axios": "^0.27.2",
     "cookies-next": "^2.1.1",
     "medusa-react": "^1.0.0",
@@ -16,7 +18,9 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-query": "^3.39.2",
-    "store2": "^2.14.2"
+    "shippo": "^1.7.1",
+    "store2": "^2.14.2",
+    "stripe": "^10.14.0"
   },
   "devDependencies": {
     "@medusajs/medusa": "^1.4.1",

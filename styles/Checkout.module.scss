@@ -1,0 +1,88 @@
+@use "theme";
+@use "breakpoints";
+
+.container {
+  height: 100vh;
+  width: 100vw;
+  background-color: theme.$blue-gray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sectionCard {
+  display: grid;
+  grid-template-rows: 1fr 7fr;
+  width: 90%;
+  max-width: 900px;
+  border: 3px theme.$tannish solid;
+  border-radius: 9px;
+
+  .cardTitle {
+    padding: 20px 0px 20px 30px;
+    display: flex;
+    align-items: center;
+    background-color: theme.$tannish;
+    color: theme.$blue-gray;
+    font-size: 1.5em;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .cardContents {
+    padding: 20px 15px;
+  }
+}
+
+@keyframes slideOpen {
+  from {
+    height: 0%;
+  }
+
+  to {
+    height: 100%;
+  }
+}
+
+.sectionCardOpen {
+  @extend .sectionCard;
+
+  .cardContents {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.sectionCardClosed {
+  @extend .sectionCard;
+
+  grid-template-rows: 1fr;
+
+  .cardContents {
+    display: none;
+  }
+}
+
+.messageComponent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  color: theme.$cream
+}
+
+.checkoutForm {
+  height: -webkit-fill-available;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 20px;
+}
+
+@media screen and (max-width: breakpoints.$mobile) {
+  .container {
+    height: 100%;
+  }
+}

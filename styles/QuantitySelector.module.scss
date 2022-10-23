@@ -9,7 +9,6 @@
     justify-content: center;
     gap: 20px;
     padding: 12px 20px;
-    border: 3px theme.$blue-gray solid;
   }
   
   .quantity {
@@ -21,5 +20,9 @@
   & {
     margin: 0px;
     padding: 0px;
+  }
+
+  .arrow {
+    cursor: pointer;
   }
 }

@@ -1,0 +1,43 @@
+@use "theme";
+@use "breakpoints";
+
+.container {
+  background-color: theme.$tannish;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  position: relative;
+  cursor: pointer;
+}
+
+.cart {
+  margin: 0px;
+  padding: 0px;
+  // border: 2px black solid;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+  position: absolute;
+  top: 18px;
+}
+
+.itemCount {
+  background-color: theme.$blue-gray;
+  color: theme.$cream;
+  font-size: medium;
+  font-weight: 600;
+  border-radius: 100%;
+  width: 27px;
+  height: 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  margin: 0px;
+  position: relative;
+  top: -21px;
+  left: 25px;
+}
