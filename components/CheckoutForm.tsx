@@ -130,7 +130,7 @@ const CheckoutForm = () => {
     }
 
     return (
-      <>
+      <div className={styles.checkoutForm}>
         <div className={
           stage === 1
           ? styles.sectionCardOpen
@@ -188,7 +188,7 @@ const CheckoutForm = () => {
             }
           />
         </div>
-      </>
+      </div>
     )
   }, [
     isValidAddress,

@@ -1,4 +1,5 @@
 @use "theme";
+@use "breakpoints";
 
 .container {
   height: 100vh;
@@ -7,7 +8,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
 }
 
 .sectionCard {
@@ -70,4 +70,19 @@
   align-items: center;
   gap: 15px;
   color: theme.$cream
+}
+
+.checkoutForm {
+  height: -webkit-fill-available;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 20px;
+}
+
+@media screen and (max-width: breakpoints.$mobile) {
+  .container {
+    height: 100%;
+  }
 }
