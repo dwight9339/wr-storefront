@@ -1,4 +1,4 @@
-## WR Store
+## WR Storefront
 
 
 
@@ -9,4 +9,4 @@ David White
 - Discord: Dwight
 
 ### Description
-Storefront for store.winterriddle.com. Built with NextJS and using a standard Medusa [backend server implementation](https://github.com/dwight9339/wr-backend).
+Storefront for store.winterriddle.com. Built with NextJS. This storefront uses a Medusa backend which can be found [here](https://github.com/dwight9339/wr-backend).
