@@ -30,7 +30,7 @@ interface ProviderProps {
 export const useCatalog = () => {
   const context = useContext(CatalogContext);
   if (!context) {
-    throw new Error("useCatalog must be used withing CatalogProvider");
+    throw new Error("useCatalog must be used within CatalogProvider");
   }
 
   return context;
@@ -38,9 +38,9 @@ export const useCatalog = () => {
 
 export const CatalogProvider = ({ children }: ProviderProps) => {
   const [currentCollection, setCurrentCollection] = useState<string[]>();
-  const [pageSize, setPageSize] = useState<number>(9);
+  const [pageSize, setPageSize] = useState<number>(24);
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const { collections, refetch: refetchCollections } = useCollections();
+  const { collections } = useCollections();
   const { products, count } = useProducts({
     collection_id: currentCollection,
     offset: pageSize * currentPage,
