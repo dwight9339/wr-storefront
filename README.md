@@ -23,7 +23,22 @@ Storefront for store.winterriddle.com. Built with NextJS, it implements a simple
 
 ## Set Up Project
 ### Prerequisites
-
+- [Node.js](https://nodejs.org/en/) v14 or greater installed on your machine
+- [Medusa Admin](https://github.com/dwight9339/medusa_admin)
+- A Stripe account
+- A Shippo account
+- 
 ### Install Project
+1. Clone the custom backend server project found [here](https://github.com/dwight9339/wr-backend)
+2. Create a postgres database and a .env file as described [here](https://docs.medusajs.com/usage/configurations). Also include a variable called STRIPE_API_KEY which will contain your Stripe secret key as well as one called SHIPPO_API_KEY which will, of course, hold your Shippo API key.
+3. Install the file storage solution plugin of your choice. I went with [S3](https://docs.medusajs.com/add-plugins/s3).
+4. Clone the Medusa admin app found [here](https://github.com/dwight9339/medusa_admin) and use it to set up your store. It's the same as the official Medusa admin app except in how it creates shipping options. Make sure to create a region and add the Shippo and Stripe providers. Create a shipping option named Shippo that uses the Shippo fulfillment method.
+5. Clone the storefront app found from this repository. Create a .env.local file with the following variables:
+`
+NEXT_PUBLIC_BACKEND_HOST=<URL of backend server>
+SHIPPO_API_KEY=<Shippo API key>
+SHIPPO_FROM_ADDRESS=<ID of address created in Shippo API that you would like to use as a from address for shipping>
+IMAGE_DOMAIN=<Image domain where product photos are hosted>
+`
 
 ## Resources
