@@ -33,7 +33,6 @@ const CheckoutForm = () => {
   const completeCart = useCallback(async (cartId: string) => {
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_HOST}/store/carts/${cartId}/complete`);
-      setCheckoutComplete(true);
       resetCart();
     } catch(err) {
       console.error(err);
@@ -42,7 +41,8 @@ const CheckoutForm = () => {
 
   useEffect(() => {
     const { checkout_complete, cart } = router.query;
-    if (checkout_complete) {
+    if (checkout_complete && cart) {
+      setCheckoutComplete(true);
       completeCart(`${cart}`);
     }
   }, [router.query, completeCart])
