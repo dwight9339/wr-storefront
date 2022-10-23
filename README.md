@@ -12,7 +12,8 @@ David White
 Storefront for store.winterriddle.com. Built with NextJS, it implements a simple interface for users to browse and learn about products, add products to a cart, and checkout. The storefront uses a Medusa backend (located [here](https://github.com/dwight9339/wr-backend)) which implements a custom fulfillment provider for processing order fulfillment with Shippo, a custom payment provider which uses the Stripe hosted checkout api to provide a simple, secure payment experience, and a custom api endpoint for fetching the record of an anonymous customer to allow customers to checkout without creating an account.
 
 ### Preview
-![browsing_catalog](https://user-images.githubusercontent.com/25517492/197373177-5cf63929-0c63-4992-a102-91d9d64ed240.gif | width=200)
+<!-- ![browsing_catalog](https://user-images.githubusercontent.com/25517492/197373177-5cf63929-0c63-4992-a102-91d9d64ed240.gif | width=200) -->
+<img src="https://user-images.githubusercontent.com/25517492/197373177-5cf63929-0c63-4992-a102-91d9d64ed240.gif" width="200" />
 ![product_page](https://user-images.githubusercontent.com/25517492/197373189-51efdd11-1512-4256-8d79-4ae4fe6a0108.png | width=200)
 ![add_product_to_cart](https://user-images.githubusercontent.com/25517492/197373190-cd1d0c73-9262-4818-b789-089513aa9b89.gif | width=200)
 ![checkout_page](https://user-images.githubusercontent.com/25517492/197373195-d499d426-6601-45ff-b635-6ff3e4ee0820.png | width=200)
