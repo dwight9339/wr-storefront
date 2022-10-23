@@ -38,11 +38,39 @@ const GalleryItem = ({ product }: GalleryItemProps) => {
 }
 
 const Gallery = () => {
-  const { products } = useCatalog();
+  const { products, hasNext, hasPrev, nextPage, prevPage } = useCatalog();
+  const pageTurnerSize = {
+    width: 20,
+    height: 22
+  };
 
   return (
     <div className={styles.container}>
-      {products && products.map((product, i) => <GalleryItem key={i} product={product} />)}
+      <div className={styles.tileContainer}>
+        {products && products.map((product, i) => <GalleryItem key={i} product={product} />)}
+      </div>
+      <div className={styles.pageTurners}>
+        <div
+          className={styles.pageTurner}
+          onClick={prevPage}  
+        >
+          <Image
+            src="/images/icons/left_arrow_light.svg"
+            width={pageTurnerSize.width}
+            height={pageTurnerSize.height}
+          />
+        </div>
+        <div
+          className={styles.pageTurner}
+          onClick={nextPage}
+        >
+          <Image
+            src="/images/icons/right_arrow_light.svg"
+            width={pageTurnerSize.width}
+            height={pageTurnerSize.height}
+          />
+        </div>
+      </div>
     </div>
   )
 }

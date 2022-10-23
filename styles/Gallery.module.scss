@@ -3,9 +3,12 @@
 
 .container {
   background-color: theme.$blue-gray;
+  overflow: auto;
+}
+
+.tileContainer {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  overflow: auto;
 }
 
 .galleryItemContainer {
@@ -41,12 +44,30 @@
   }
 }
 
+.pageTurners {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 15px;
+  padding: 20px 30px;
+
+  .pageTurner {
+    cursor: pointer;
+  }
+}
+
 @media screen and (max-width: breakpoints.$mobile) {
-  .container {
+  .tileContainer {
     background-color: theme.$blue-gray;
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow: auto;
+  }
+
+  .pageTurners {
+    justify-content: center;
   }
 }

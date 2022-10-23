@@ -38,7 +38,7 @@ export const useCatalog = () => {
 
 export const CatalogProvider = ({ children }: ProviderProps) => {
   const [currentCollection, setCurrentCollection] = useState<string[]>();
-  const [pageSize, setPageSize] = useState<number>(/*24*/9);
+  const [pageSize, setPageSize] = useState<number>(9);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const { collections, refetch: refetchCollections } = useCollections();
   const { products, count } = useProducts({
@@ -67,7 +67,7 @@ export const CatalogProvider = ({ children }: ProviderProps) => {
 
   const hasNext = () => {
     if (!count) return false;
-    return currentPage * pageSize < count
+    return (currentPage + 1) * pageSize < count
   }
 
   const hasPrev = () => {
