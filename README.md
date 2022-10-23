@@ -9,8 +9,7 @@ David White
 - Discord: Dwight
 
 ### Description
-Storefront for store.winterriddle.com. Built with NextJS, it implements a simple interface for users to browse and ![browsing_catalog](https://user-images.githubusercontent.com/25517492/197373172-a46383ea-0c9f-45d6-878e-308b80858aef.gif)
-learn about products, add products to a cart, and checkout. The storefront uses a Medusa backend (located [here](https://github.com/dwight9339/wr-backend)) which implements a custom fulfillment provider for processing order fulfillment with Shippo, a custom payment provider which uses the Stripe hosted checkout api to provide a simple, secure payment experience, and a custom api endpoint for fetching the record of an anonymous customer to allow customers to checkout without creating an account.
+Storefront for store.winterriddle.com. Built with NextJS, it implements a simple interface for users to browse and learn about products, add products to a cart, and checkout. The storefront uses a Medusa backend (located [here](https://github.com/dwight9339/wr-backend)) which implements a custom fulfillment provider for processing order fulfillment with Shippo, a custom payment provider which uses the Stripe hosted checkout api to provide a simple, secure payment experience, and a custom api endpoint for fetching the record of an anonymous customer to allow customers to checkout without creating an account.
 
 ### Preview
 ![browsing_catalog](https://user-images.githubusercontent.com/25517492/197373177-5cf63929-0c63-4992-a102-91d9d64ed240.gif)
