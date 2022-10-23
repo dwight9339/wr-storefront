@@ -54,8 +54,9 @@
 
 @media screen and (max-width: breakpoints.$mobile) {
   .form {
-    input {
-      padding: 2px;
+    input, select {
+      padding: 0px;
+      color: black;
     }
   }
 }
