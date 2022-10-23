@@ -26,7 +26,7 @@ Storefront for store.winterriddle.com. Built with NextJS, it implements a simple
 - [Node.js](https://nodejs.org/en/) v14 or greater installed on your machine
 - A Stripe account
 - A Shippo account
-- 
+
 ### Install Project
 1. Clone the custom backend server project found [here](https://github.com/dwight9339/wr-backend)
 2. Create a postgres database and a .env file as described [here](https://docs.medusajs.com/usage/configurations). Also include a variable called STRIPE_API_KEY which will contain your Stripe secret key as well as one called SHIPPO_API_KEY which will, of course, hold your Shippo API key.
