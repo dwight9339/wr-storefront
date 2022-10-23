@@ -14,9 +14,12 @@ Storefront for store.winterriddle.com. Built with NextJS, it implements a simple
 ### Preview
 <!-- ![browsing_catalog](https://user-images.githubusercontent.com/25517492/197373177-5cf63929-0c63-4992-a102-91d9d64ed240.gif | width=200) -->
 <img src="https://user-images.githubusercontent.com/25517492/197373177-5cf63929-0c63-4992-a102-91d9d64ed240.gif" width="600" />
-![product_page](https://user-images.githubusercontent.com/25517492/197373189-51efdd11-1512-4256-8d79-4ae4fe6a0108.png | width=200)
-![add_product_to_cart](https://user-images.githubusercontent.com/25517492/197373190-cd1d0c73-9262-4818-b789-089513aa9b89.gif | width=200)
-![checkout_page](https://user-images.githubusercontent.com/25517492/197373195-d499d426-6601-45ff-b635-6ff3e4ee0820.png | width=200)
+<!-- ![product_page](https://user-images.githubusercontent.com/25517492/197373189-51efdd11-1512-4256-8d79-4ae4fe6a0108.png | width=200) -->
+<img src="https://user-images.githubusercontent.com/25517492/197373189-51efdd11-1512-4256-8d79-4ae4fe6a0108.png" width="600" />
+<!-- ![add_product_to_cart](https://user-images.githubusercontent.com/25517492/197373190-cd1d0c73-9262-4818-b789-089513aa9b89.gif | width=200) -->
+<img src="https://user-images.githubusercontent.com/25517492/197373190-cd1d0c73-9262-4818-b789-089513aa9b89.gif" width="600" />
+<!-- ![checkout_page](https://user-images.githubusercontent.com/25517492/197373195-d499d426-6601-45ff-b635-6ff3e4ee0820.png | width=200) -->
+<img src="https://user-images.githubusercontent.com/25517492/197373195-d499d426-6601-45ff-b635-6ff3e4ee0820.png" width="600" />
 
 ## Set Up Project
 ### Prerequisites
