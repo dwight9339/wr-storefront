@@ -14,6 +14,8 @@ interface CatalogContext extends CatalogState {
   setSelectedCollection: (id: string) => void;
   resetCollection: () => void;
   changePageSize: (size: number) => void;
+  hasNext: () => boolean;
+  hasPrev: () => boolean;
   nextPage: () => void;
   prevPage: () => void;
   jumpToPage: (page: number) => void;
@@ -36,7 +38,7 @@ export const useCatalog = () => {
 
 export const CatalogProvider = ({ children }: ProviderProps) => {
   const [currentCollection, setCurrentCollection] = useState<string[]>();
-  const [pageSize, setPageSize] = useState<number>(24);
+  const [pageSize, setPageSize] = useState<number>(/*24*/9);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const { collections, refetch: refetchCollections } = useCollections();
   const { products, count } = useProducts({
@@ -63,15 +65,25 @@ export const CatalogProvider = ({ children }: ProviderProps) => {
     setPageSize(size);
   }
 
+  const hasNext = () => {
+    if (!count) return false;
+    return currentPage * pageSize < count
+  }
+
+  const hasPrev = () => {
+    return currentPage > 0;
+  }
+
   const nextPage = () => {
-    if (count && currentPage * pageSize < count) {
+    if (hasNext()) {
       setCurrentPage((prev) => prev + 1);
     }
   }
 
   const prevPage = () => {
-    if (currentPage === 0) return;
-    setCurrentPage((prev) => prev - 1);
+    if (hasPrev()) {
+      setCurrentPage((prev) => prev - 1);
+    }
   }
 
   const jumpToPage = (page: number) => {
@@ -92,6 +104,8 @@ export const CatalogProvider = ({ children }: ProviderProps) => {
       setSelectedCollection,
       resetCollection,
       changePageSize,
+      hasNext,
+      hasPrev,
       nextPage,
       prevPage,
       jumpToPage
