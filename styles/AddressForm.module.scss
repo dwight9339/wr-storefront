@@ -53,7 +53,9 @@
 }
 
 @media screen and (max-width: breakpoints.$mobile) {
-  input {
-    padding: 2px;
+  .form {
+    input {
+      padding: 2px;
+    }
   }
 }
