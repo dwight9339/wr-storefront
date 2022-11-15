@@ -1,4 +1,4 @@
-import { Cart, LineItem, PaymentProvider } from "@medusajs/medusa";
+import type { Cart, LineItem } from "@medusajs/medusa";
 import { createContext, useContext, useEffect, useState } from "react";
 import { 
   useCreateCart,
@@ -10,13 +10,13 @@ import {
   useSetPaymentSession,
   useUpdateCart
 } from "medusa-react";
-// import Medusa from "@medusajs/medusa-js";
+import Medusa from "@medusajs/medusa-js";
 import { useRegion } from "./RegionProvider";
 import store from "store2";
 import axios from "axios";
 
 interface CartState {
-  cart?: Cart | undefined;
+  cart?: Omit<Cart, "refundable_amount" | "refunded_total"> | undefined;
 }
 
 interface CartContext extends CartState {
@@ -44,7 +44,7 @@ export const useCart = () => {
 }
 
 export const CartProvider = ({ children }: ProviderProps) => {
-  const [cart, setCart] = useState<Cart | undefined>();
+  const [cart, setCart] = useState<Omit<Cart, "refundable_amount" | "refunded_total"> | undefined>();
   const createCart = useCreateCart();
   const createLineItem = useCreateLineItem(cart?.id || "");
   const deleteLineItem = useDeleteLineItem(cart?.id || "");
@@ -53,18 +53,16 @@ export const CartProvider = ({ children }: ProviderProps) => {
   const createPaymentSession = useCreatePaymentSession(cart?.id || "");
   const setPaymentSession = useSetPaymentSession(cart?.id || "");
   const completeCart = useCompleteCart(cart?.id || "");
-  // const medusa = new Medusa({
-  //   mxaRetries: 3,
-  //   baseUrl: process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:9000"
-  // })
+  const medusa = new Medusa({
+    maxRetries: 3,
+    baseUrl: process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:9000"
+  });
   const { userRegion } = useRegion();
 
   const fetchCart = async (cartId: string) => {
-    // const { cart } = await medusa.carts.retrieve(cartId);
+    const { cart } = await medusa.carts.retrieve(cartId);
 
-    // if (cart instanceof Cart) {
-    //   setCart(cart);
-    // }
+    setCart(cart);
   }
 
   useEffect(() => {
@@ -72,13 +70,11 @@ export const CartProvider = ({ children }: ProviderProps) => {
 
     if (!cartId) {
       createCart.mutate({
-        region_id: userRegion?.id
+        region_id: userRegion?.id,
       }, {
         onSuccess: ({ cart }) => {
-          if (cart instanceof Cart) {
-            setCart(cart);
-            store.set("cartId", cart.id);
-          }
+          setCart(cart);
+          store.set("cartId", cart.id);
         },
         onError: (err) => {
           console.error(err);
@@ -109,7 +105,7 @@ export const CartProvider = ({ children }: ProviderProps) => {
       quantity: item.quantity
     }, {
       onSuccess: ({ cart }) => {
-        if (cart instanceof Cart) setCart(cart);
+        setCart(cart);
       }
     });
   }
@@ -117,7 +113,7 @@ export const CartProvider = ({ children }: ProviderProps) => {
   const removeItem = ({ id }: LineItem) => {
     deleteLineItem.mutate({lineId: id}, {
       onSuccess: ({ cart }) => {
-        if (cart instanceof Cart) setCart(cart);
+        setCart(cart);
       }
     });
   }
@@ -128,7 +124,7 @@ export const CartProvider = ({ children }: ProviderProps) => {
       quantity
     }, {
       onSuccess: ({ cart }) => {
-        if (cart instanceof Cart) setCart(cart);
+        setCart(cart);
       }
     });
   }
@@ -136,7 +132,7 @@ export const CartProvider = ({ children }: ProviderProps) => {
   const startCheckout = async () => {
     const { cart } = await createPaymentSession.mutateAsync();
 
-    if (cart instanceof Cart) setCart(cart);
+    setCart(cart);
     if (cart.payment_session?.provider_id !== "Stripe") {
       const { cart } = await setPaymentSession.mutateAsync({
         provider_id: "Stripe"
