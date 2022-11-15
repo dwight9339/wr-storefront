@@ -65,7 +65,7 @@ const CartRow = ({ item }: CartRowProps) => {
 }
 
 const Cart = () => {
-  const { cart, loading } = useCart();
+  const { cart } = useCart();
   const { userRegion } = useRegion();
   const total = userRegion ? formatAmount({
       amount: cart?.total || 0,
@@ -73,7 +73,7 @@ const Cart = () => {
   }) : "Unable to get amount";
 
   const content = useMemo(() => {
-    if (loading) return;
+    if (!cart) return;
     if (cart?.items?.length) {
       return (
         <>
@@ -96,7 +96,7 @@ const Cart = () => {
         Cart is empty
       </div>
     )
-  }, [cart, loading, total])
+  }, [cart, total])
 
   return (
     <div className={styles.container}>

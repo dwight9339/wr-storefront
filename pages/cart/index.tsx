@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 
 const CartPage: NextPage = () => {
   const router = useRouter();
-  const { cart, loading } = useCart();
+  const { cart } = useCart();
 
   const initiateCheckout = async () => {
     router.push("/checkout");
@@ -23,7 +23,6 @@ const CartPage: NextPage = () => {
         action={initiateCheckout}
         disabled={
           !cart?.items?.length
-          || loading
         }
       />
     </div>

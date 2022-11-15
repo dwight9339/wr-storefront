@@ -1,23 +1,21 @@
-import { Cart, LineItem, PaymentProvider } from "@medusajs/medusa";
+import type { Cart, LineItem } from "@medusajs/medusa";
 import { createContext, useContext, useEffect, useState } from "react";
 import { 
   useCreateCart,
-  useGetCart,
   useCreateLineItem,
   useDeleteLineItem,
   useUpdateLineItem,
-  useCompleteCart,
   useCreatePaymentSession,
   useSetPaymentSession,
   useUpdateCart
 } from "medusa-react";
+import Medusa from "@medusajs/medusa-js";
 import { useRegion } from "./RegionProvider";
 import store from "store2";
 import axios from "axios";
 
 interface CartState {
   cart?: Omit<Cart, "refundable_amount" | "refunded_total"> | undefined;
-  loading: boolean;
 }
 
 interface CartContext extends CartState {
@@ -45,68 +43,87 @@ export const useCart = () => {
 }
 
 export const CartProvider = ({ children }: ProviderProps) => {
-  const [cartId, setCartId] = useState<string>(store.get("cartId"));
-  const { cart, isLoading, refetch } = useGetCart(cartId);
+  const [cart, setCart] = useState<Omit<Cart, "refundable_amount" | "refunded_total"> | undefined>();
+  const [fetchingCart, setFetchingCart] = useState<boolean>(false);
   const createCart = useCreateCart();
-  const createLineItem = useCreateLineItem(cartId);
-  const deleteLineItem = useDeleteLineItem(cartId);
-  const updateLineItem = useUpdateLineItem(cartId);
-  const updateCart = useUpdateCart(cartId);
-  const createPaymentSession = useCreatePaymentSession(cartId);
-  const setPaymentSession = useSetPaymentSession(cartId);
-  const completeCart = useCompleteCart(cartId);
+  const createLineItem = useCreateLineItem(cart?.id || "");
+  const deleteLineItem = useDeleteLineItem(cart?.id || "");
+  const updateLineItem = useUpdateLineItem(cart?.id || "");
+  const updateCart = useUpdateCart(cart?.id || "");
+  const createPaymentSession = useCreatePaymentSession(cart?.id || "");
+  const setPaymentSession = useSetPaymentSession(cart?.id || "");
+  const medusa = new Medusa({
+    maxRetries: 3,
+    baseUrl: process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:9000"
+  });
   const { userRegion } = useRegion();
 
-  const getAnonymousCustomer = async () => {
-    try {
-      const anonymousCustomerEndpoint = `${process.env.NEXT_PUBLIC_BACKEND_HOST}/store/customers/anonymous`;
-      const { data: { customer } } = await axios.get(anonymousCustomerEndpoint);
-
-      return {...customer};
-    } catch(err) {
+  const fetchCart = (cartId: string) => {
+    medusa.carts.retrieve(cartId).then(({ cart }) => {
+      setCart(cart);
+    }).catch((err) => {
       console.error(err);
-      return null;
-    }
+    }).finally(() => setFetchingCart(false));
   }
 
-  const addItem = (item: LineItem) => {
-    if (!userRegion) return;
+  const getAnonymousCustomer = async () => {
+    const anonymousCustomerEndpoint = `${process.env.NEXT_PUBLIC_BACKEND_HOST}/store/customers/anonymous`;
+    const { data: { customer } } = await axios.get(anonymousCustomerEndpoint);
 
-    if (!cartId) {
-      createCart.mutate({
-        region_id: userRegion.id,
-        items: [item]
-      }, {
-        onSuccess: async ({ cart }) => {
-          setCartId(cart.id);
-          store.set("cartId", cart.id);
+    return {...customer};
+  }
 
-          const customer = await getAnonymousCustomer();
-          if (customer) {
-            await updateCart.mutateAsync({
-              customer_id: customer.id
+  useEffect(() => {
+    if (!(cart || fetchingCart)) {
+      setFetchingCart(true);
+      const cartId = store.get("cartId");
+
+      if (!cartId) {
+        createCart.mutate({
+          region_id: userRegion?.id,
+        }, {
+          onSuccess: ({ cart }) => {
+            setCart(cart);
+            store.set("cartId", cart.id);
+            getAnonymousCustomer().then((customer) => {
+              updateCart.mutate({
+                customer_id: customer.id
+              }, {
+                onSuccess: ({ cart }) => setCart(cart)             
+              });
+            }).catch((err) => {
+              console.error(err);
             });
-          }
-          
-          refetch();
-        }
-      });
-    } else {
-      createLineItem.mutate({
-        variant_id: item.variant_id, 
-        quantity: item.quantity
-      }, {
-        onSuccess: ({ cart }) => {
-          setCartId(cart.id);
-          refetch();
-        }
-      });
+          },
+          onError: (err) => {
+            console.error(err);
+          },
+          onSettled: () => setFetchingCart(false)
+        })
+      } else {
+        fetchCart(cartId);
+      }
     }
+  }, [cart, fetchingCart, setCart, fetchCart]);
+
+  const addItem = (item: LineItem) => {
+    if (!(userRegion && cart)) return;
+
+    createLineItem.mutate({
+      variant_id: item.variant_id, 
+      quantity: item.quantity
+    }, {
+      onSuccess: ({ cart }) => {
+        setCart(cart);
+      }
+    });
   }
 
   const removeItem = ({ id }: LineItem) => {
     deleteLineItem.mutate({lineId: id}, {
-      onSuccess: () => refetch()
+      onSuccess: ({ cart }) => {
+        setCart(cart);
+      }
     });
   }
 
@@ -115,13 +132,16 @@ export const CartProvider = ({ children }: ProviderProps) => {
       lineId: id,
       quantity
     }, {
-      onSuccess: () => refetch()
+      onSuccess: ({ cart }) => {
+        setCart(cart);
+      }
     });
   }
 
   const startCheckout = async () => {
     const { cart } = await createPaymentSession.mutateAsync();
 
+    setCart(cart);
     if (cart.payment_session?.provider_id !== "Stripe") {
       const { cart } = await setPaymentSession.mutateAsync({
         provider_id: "Stripe"
@@ -149,14 +169,13 @@ export const CartProvider = ({ children }: ProviderProps) => {
 
   const resetCart = () => {
     store.set("cartId", null);
-    setCartId("");
+    setCart(undefined);
   }
 
   return (
     <CartContext.Provider
       value={{
-        cart: cartId ? cart : undefined,
-        loading: isLoading,
+        cart: cart,
         addItem,
         removeItem,
         updateQuantity,
