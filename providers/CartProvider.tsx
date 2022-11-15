@@ -5,7 +5,6 @@ import {
   useCreateLineItem,
   useDeleteLineItem,
   useUpdateLineItem,
-  useCompleteCart,
   useCreatePaymentSession,
   useSetPaymentSession,
   useUpdateCart
@@ -45,6 +44,7 @@ export const useCart = () => {
 
 export const CartProvider = ({ children }: ProviderProps) => {
   const [cart, setCart] = useState<Omit<Cart, "refundable_amount" | "refunded_total"> | undefined>();
+  const [fetchingCart, setFetchingCart] = useState<boolean>(false);
   const createCart = useCreateCart();
   const createLineItem = useCreateLineItem(cart?.id || "");
   const deleteLineItem = useDeleteLineItem(cart?.id || "");
@@ -52,50 +52,59 @@ export const CartProvider = ({ children }: ProviderProps) => {
   const updateCart = useUpdateCart(cart?.id || "");
   const createPaymentSession = useCreatePaymentSession(cart?.id || "");
   const setPaymentSession = useSetPaymentSession(cart?.id || "");
-  const completeCart = useCompleteCart(cart?.id || "");
   const medusa = new Medusa({
     maxRetries: 3,
     baseUrl: process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:9000"
   });
   const { userRegion } = useRegion();
 
-  const fetchCart = async (cartId: string) => {
-    const { cart } = await medusa.carts.retrieve(cartId);
+  const fetchCart = (cartId: string) => {
+    medusa.carts.retrieve(cartId).then(({ cart }) => {
+      setCart(cart);
+    }).catch((err) => {
+      console.error(err);
+    }).finally(() => setFetchingCart(false));
+  }
 
-    setCart(cart);
+  const getAnonymousCustomer = async () => {
+    const anonymousCustomerEndpoint = `${process.env.NEXT_PUBLIC_BACKEND_HOST}/store/customers/anonymous`;
+    const { data: { customer } } = await axios.get(anonymousCustomerEndpoint);
+
+    return {...customer};
   }
 
   useEffect(() => {
-    const cartId = store.get("cartId");
+    if (!(cart || fetchingCart)) {
+      setFetchingCart(true);
+      const cartId = store.get("cartId");
 
-    if (!cartId) {
-      createCart.mutate({
-        region_id: userRegion?.id,
-      }, {
-        onSuccess: ({ cart }) => {
-          setCart(cart);
-          store.set("cartId", cart.id);
-        },
-        onError: (err) => {
-          console.error(err);
-        }
-      })
-    } else {
-      fetchCart(cartId);
+      if (!cartId) {
+        createCart.mutate({
+          region_id: userRegion?.id,
+        }, {
+          onSuccess: ({ cart }) => {
+            setCart(cart);
+            store.set("cartId", cart.id);
+            getAnonymousCustomer().then((customer) => {
+              updateCart.mutate({
+                customer_id: customer.id
+              }, {
+                onSuccess: ({ cart }) => setCart(cart)             
+              });
+            }).catch((err) => {
+              console.error(err);
+            });
+          },
+          onError: (err) => {
+            console.error(err);
+          },
+          onSettled: () => setFetchingCart(false)
+        })
+      } else {
+        fetchCart(cartId);
+      }
     }
-  }, [cart, setCart, fetchCart]);
-
-  const getAnonymousCustomer = async () => {
-    try {
-      const anonymousCustomerEndpoint = `${process.env.NEXT_PUBLIC_BACKEND_HOST}/store/customers/anonymous`;
-      const { data: { customer } } = await axios.get(anonymousCustomerEndpoint);
-
-      return {...customer};
-    } catch(err) {
-      console.error(err);
-      return null;
-    }
-  }
+  }, [cart, fetchingCart, setCart, fetchCart]);
 
   const addItem = (item: LineItem) => {
     if (!(userRegion && cart)) return;
